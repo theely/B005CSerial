@@ -1,0 +1,3 @@
+/Users/eliapalme/AutoMower/B005CSerial/build/debug/build/CMakeFiles/rebuild_cache.dir
+/Users/eliapalme/AutoMower/B005CSerial/build/debug/build/CMakeFiles/edit_cache.dir
+/Users/eliapalme/AutoMower/B005CSerial/build/debug/build/CMakeFiles/B005CSerial.dir
