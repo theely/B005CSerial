@@ -20,11 +20,19 @@ target_include_directories(
     "$<$<AND:$<CONFIG:Debug>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy>"
     "$<$<AND:$<CONFIG:Debug>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32F4xx/Include>"
     "$<$<AND:$<CONFIG:Debug>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/Drivers/CMSIS/Include>"
+    "$<$<AND:$<CONFIG:Debug>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/USB_DEVICE/App>"
+    "$<$<AND:$<CONFIG:Debug>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/USB_DEVICE/Target>"
+    "$<$<AND:$<CONFIG:Debug>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/Middlewares/ST/STM32_USB_Device_Library/Core/Inc>"
+    "$<$<AND:$<CONFIG:Debug>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc>"
     "$<$<AND:$<NOT:$<CONFIG:Debug>>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/Core/Inc>"
     "$<$<AND:$<NOT:$<CONFIG:Debug>>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/Drivers/STM32F4xx_HAL_Driver/Inc>"
     "$<$<AND:$<NOT:$<CONFIG:Debug>>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy>"
     "$<$<AND:$<NOT:$<CONFIG:Debug>>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32F4xx/Include>"
     "$<$<AND:$<NOT:$<CONFIG:Debug>>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/Drivers/CMSIS/Include>"
+    "$<$<AND:$<NOT:$<CONFIG:Debug>>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/USB_DEVICE/App>"
+    "$<$<AND:$<NOT:$<CONFIG:Debug>>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/USB_DEVICE/Target>"
+    "$<$<AND:$<NOT:$<CONFIG:Debug>>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/Middlewares/ST/STM32_USB_Device_Library/Core/Inc>"
+    "$<$<AND:$<NOT:$<CONFIG:Debug>>,$<COMPILE_LANGUAGE:C>>:${PROJECT_SOURCE_DIR}/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc>"
 )
 
 target_compile_options(
@@ -79,6 +87,10 @@ target_sources(
     "Core/Src/sysmem.c"
     "Core/Src/system_stm32f4xx.c"
     "Core/Startup/startup_stm32f401vctx.s"
+    "Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c"
+    "Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c"
+    "Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c"
+    "Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c"
@@ -87,6 +99,8 @@ target_sources(
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash_ramfunc.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_flash.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c"
+    "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c"
+    "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr_ex.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pwr.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_rcc_ex.c"
@@ -94,6 +108,11 @@ target_sources(
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c"
+    "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c"
+    "USB_DEVICE/App/usb_device.c"
+    "USB_DEVICE/App/usbd_cdc_if.c"
+    "USB_DEVICE/App/usbd_desc.c"
+    "USB_DEVICE/Target/usbd_conf.c"
 )
 
 add_custom_command(
