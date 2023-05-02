@@ -1,5 +1,5 @@
-/********************************************************************************
-* PIN MAPPING
+
+# PIN MAPPING
 
 
 | PIN  | Peripheral  | Type | Config   |
@@ -37,25 +37,14 @@
 |  A11 | USB Serial  | USB_DM  |   |
 | A10  | Panle UART Port J16  |  UART1 RX (DMA) |   |
 | A9  | Panle UART Port J16  | UART1 TX (DMA)  |   |
-|   |   |   |   |
-|   |   |   |   |
-|   |   |   |   |
-|   |   |   |   |
-|   |   |   |   |
-|   |   |   |   |
-|   |   |   |   |
+| B3 [not used]  |  SOFT I2C | GPIO  |   |
+| B4 [not used]  |  SOFT I2C |  GPIO |   |
+| A1  | Charge Current  | ADC1  |   |
+|  A2 | Charge Voltage  | ADC1  |   |
+| A3  | Battery Voltage  | ADC1  |   |
+|  A7 | Charger Voltage  | ADC1  |   |
+|  C2 | Blade NTC  |  ADC1 |   |
+|  A6 | Perimeter  | ADC1 (DMA)  |   |
+| H0  | Crystal 8Mhz  | RCC HSE   |   |
+| H1  | Crystal 8Mhz  | RCC HSE  |   |
  
- 
-  - 
-   - 
-[not used] B3  GPIO SOFT I2C
-[not used] B4  GPIO SOFT I2C
-A1  ADC1 - Charge Current
-A2  ADC1 - Charge Voltage
-A3  ADC1 - Battery Voltage
-A7  ADC1 - Charger Voltage
-C2  ADC1 - Blade NTC
-A6  ADC1 (DMA) - Perimeter
-H0  RCC HSE - External crystal 8Mhz
-H1  RCC HSE - External crystal 8Mhz
-/********************************************************************************
