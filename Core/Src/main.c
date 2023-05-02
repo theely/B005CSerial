@@ -56,6 +56,7 @@ static void MX_GPIO_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+
 /* USER CODE END 0 */
 
 /**
@@ -74,6 +75,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
+
 
   /* USER CODE END Init */
 
@@ -99,8 +101,9 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-    HAL_GPIO_TogglePin (LED_D3_GPIO_Port, LED_D3_Pin);
+    HAL_GPIO_TogglePin (Led_D3_GPIO_Port, Led_D3_Pin);
     HAL_Delay (100);   /* Insert delay 100 ms */
+
 
   }
   /* USER CODE END 3 */
@@ -170,14 +173,14 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED_D3_GPIO_Port, LED_D3_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(Led_D3_GPIO_Port, Led_D3_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : LED_D3_Pin */
-  GPIO_InitStruct.Pin = LED_D3_Pin;
+  /*Configure GPIO pin : Led_D3_Pin */
+  GPIO_InitStruct.Pin = Led_D3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LED_D3_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(Led_D3_GPIO_Port, &GPIO_InitStruct);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
