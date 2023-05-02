@@ -2,27 +2,36 @@
 * PIN MAPPING
 
 
+| PIN  | Peripheral  | Type | Config   |
+|---|---|---|---|
+|  B2 | LED  | GPIO  | GPIO_MODE_OUTPUT_PP GPIO_PULLDOWN GPIO_SPEED_HIGH  |
+| D14  | Buzzer   | PWM  |   |
+|  C5 |  24V Enable | GPIO  | GPIO_MODE_OUTPUT_PP GPIO_NOPULL GPIO_SPEED_HIGH  |
+|  E14 | Blade Motor nRESET  | GPIO  | (HIGH for no RESET) GPIO_MODE_OUTPUT_PP GPIO_NOPULL GPIO_SPEED_HIGH  |
+|  E15 | Drive Motors  | GPIO  | HC366 OE Pins (LOW to enable) GPIO_MODE_OUTPUT_PP GPIO_NOPULL GPIO_SPEED_HIGH  |
+|  E8 | Charge Control Pins  |  TIM1_CH1N | HighSide/LowSide MosFET   |
+|  E9 | Charge Control Pins  | TIM1_CH1   | HighSide/LowSide MosFET  |
+|  C0 | Stop button  | GPIO  | yellow (HIGH when pressed) GPIO_MODE_INPUT GPIO_PULLDOWN  |
+|  C8 (TODO: CONFLICT UART6) | Stop button  | GPIO  | white (HIGH when pressed)  GPIO_MODE_INPUT GPIO_PULLDOWN  |
+| A8  |  Mechanical tilt  | GPIO  |  (HIGH when set) GPIO_MODE_INPUT GPIO_PULLDOWN |
+|  B3 | Flash CLK  | SPI3  |   |
+|  B4 | Flash MISO  |  SPI3 |   |
+| B5  |  SPI3 Flash MISI |  SPI3 |   |
+| A15  |  Flash nCS |  GPIO | GPIO_MODE_OUTPUT_PP GPIO_PULLUP GPIO_SPEED_HIGH  |
+| D0  | Wheel lift blue  | GPIO  | GPIO_MODE_INPUT GPIO_PULLDOWN  |
+| D1  | Wheel lift red  | GPIO  | GPIO_MODE_INPUT GPIO_PULLDOWN  |
+| C7 (TODO: CONFLICT UART6)   | Play button  | GPIO  |  (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP |
+| B13  | Home button  | GPIO  | (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP  |
+|  E2 |   Rain Sensor | GPIO  | (LOW when active)  GPIO_MODE_INPUT GPIO_PULLUP  |
+|  D2 |  STOP HALL Sensor  | GPIO  | (HIGH when set) TODO: find config  |
+| D3  |  STOP HALL Sensor |  GPIO |  (HIGH when set) TODO: find config |
+|   |   |   |   |
+|   |   |   |   |
+|   |   |   |   |
+|   |   |   |   |
+|   |   |   |   |
+|   |   |   |   |
 
-B2  GPIO LED - GPIO_MODE_OUTPUT_PP GPIO_PULLDOWN GPIO_SPEED_HIGH 
-C5  GPIO 24V Enable- GPIO_MODE_OUTPUT_PP GPIO_NOPULL GPIO_SPEED_HIGH
-E14 GPIO Blade Motor nRESET - (HIGH for no RESET) GPIO_MODE_OUTPUT_PP GPIO_NOPULL GPIO_SPEED_HIGH
-E15 GPIO Drive Motors - HC366 OE Pins (LOW to enable) GPIO_MODE_OUTPUT_PP GPIO_NOPULL GPIO_SPEED_HIGH
-E8  TIM1_CH1N Charge Control Pins - HighSide/LowSide MosFET  
-E9  TIM1_CH1 Charge Control Pins - HighSide/LowSide MosFET 
-C0  GPIO Stop button - yellow (HIGH when pressed) GPIO_MODE_INPUT GPIO_PULLDOWN
-TODO: CONFLICT UART6 - C8  GPIO Stop button - white (HIGH when pressed)  GPIO_MODE_INPUT GPIO_PULLDOWN
-A8  GPIO Mechanical tilt - (HIGH when set) GPIO_MODE_INPUT GPIO_PULLDOWN
-B3  SPI3 Flash CLK
-B4  SPI3 Flash MISO
-B5  SPI3 Flash MISI
-A15 GPIO  Flash nCS  GPIO_MODE_OUTPUT_PP GPIO_PULLUP GPIO_SPEED_HIGH 
-D0  GPIO Wheel lift blue GPIO_MODE_INPUT GPIO_PULLDOWN
-D1  GPIO Wheel lift red  GPIO_MODE_INPUT GPIO_PULLDOWN
-TODO: CONFLICT UART6 - C7  GPIO Play button - (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP
-B13 GPIO Home button - (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP
-E2  GPIO Rain Sensor - (LOW when active)  GPIO_MODE_INPUT GPIO_PULLUP
-D2  GPIO STOP HALL Sensor - (HIGH when set) TODO: find config
-D3  GPIO STOP HALL Sensor - (HIGH when set) TODO: find config
 [not used] A10 UART1 RX - Master UART Port J16
 [not used] A9  UART1 TX - Master UART Port J16
 TODO: NOT FOUND C11 UART4 RX (DMA) - Master UART Red Port J18 (DMA)
