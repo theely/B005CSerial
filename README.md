@@ -25,25 +25,29 @@
 |  E2 |   Rain Sensor | GPIO  | (LOW when active)  GPIO_MODE_INPUT GPIO_PULLUP  |
 |  D2 |  STOP HALL Sensor  | GPIO  | (HIGH when set) TODO: find config  |
 | D3  |  STOP HALL Sensor |  GPIO |  (HIGH when set) TODO: find config |
+| A10 [not used] | Master UART Port J16  | UART1 RX  |   |
+| A9  [not used]|  Master UART Port J16 | UART1 TX  |   |
+| C11 (TODO: NOT FOUND)  | Master UART Red Port J18   | UART4 RX (DMA)  |   |
+|  C10 (TODO: NOT FOUND) | UMaster UART Red Port J18  | UART4 TX (DMA)  |   |
+| D6  | Driver motros  |  UART2 RX (DMA)  |   |
+| D5  | Driver motros  |  UART2 TX (DMA)  |   |
+| C7 or A12 (TODO: Check new port) | Blade motoror  | UART6 RX (DMA)  |   |
+| C6 or A11 (TODO: Check new port)  | Blade motor  |  UART6 TX (DMA) |   |
+| A12  | USB Serial  | USB_DP  |   |
+|  A11 | USB Serial  | USB_DM  |   |
+| A10  | Panle UART Port J16  |  UART1 RX (DMA) |   |
+| A9  | Panle UART Port J16  | UART1 TX (DMA)  |   |
 |   |   |   |   |
 |   |   |   |   |
 |   |   |   |   |
 |   |   |   |   |
 |   |   |   |   |
 |   |   |   |   |
-
-[not used] A10 UART1 RX - Master UART Port J16
-[not used] A9  UART1 TX - Master UART Port J16
-TODO: NOT FOUND C11 UART4 RX (DMA) - Master UART Red Port J18 (DMA)
-TODO: NOT FOUND C10 UART4 TX (DMA) - Master UART Red Port J18
-D6  UART2 RX (DMA) - Driver motros 
-D5  UART2 TX (DMA) - Driver motros 
-TODO: Check new port C7 or A12  - B11 UART6 RX (DMA) - Blade motoror 
-TODO: Check new port C6 or A11 - B10 UART6 TX (DMA) - Blade motor
-A12 USB_DP
-A11 USB_DM
-A10 UART1 RX (DMA) - Panle UART Port J16
-A9  UART1 TX (DMA) - Panle UART Port J16
+|   |   |   |   |
+ 
+ 
+  - 
+   - 
 [not used] B3  GPIO SOFT I2C
 [not used] B4  GPIO SOFT I2C
 A1  ADC1 - Charge Current
