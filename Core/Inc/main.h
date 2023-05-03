@@ -57,8 +57,16 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define High_Voltage_Enable_Pin GPIO_PIN_5
+#define High_Voltage_Enable_GPIO_Port GPIOC
 #define Led_D3_Pin GPIO_PIN_2
 #define Led_D3_GPIO_Port GPIOB
+#define Driver_Motor_Enable_Pin GPIO_PIN_15
+#define Driver_Motor_Enable_GPIO_Port GPIOE
+#define Driver_Motor_EnableD8_Pin GPIO_PIN_8
+#define Driver_Motor_EnableD8_GPIO_Port GPIOD
+#define Driver_Motor_EnableD7_Pin GPIO_PIN_7
+#define Driver_Motor_EnableD7_GPIO_Port GPIOD
 
 /* USER CODE BEGIN Private defines */
 
