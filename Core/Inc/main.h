@@ -31,7 +31,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+void logSerial(uint8_t *message);
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

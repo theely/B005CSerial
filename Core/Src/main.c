@@ -22,7 +22,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "usbd_cdc_if.h"
+#include "string.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -75,7 +76,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+  
 
   /* USER CODE END Init */
 
@@ -90,7 +91,17 @@ int main(void)
   MX_GPIO_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
+   logSerial("System Boot Completed!\n");
+   logSerial("Services Initializations started...\n");
+   
+   logSerial("High Voltage Circuit: On\n");
 
+
+   logSerial("Driver Motors: Ready\n");
+
+ 
+
+   logSerial("Services Initializations completed!\n");
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -101,9 +112,12 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
+    
+  
+    
     HAL_GPIO_TogglePin (Led_D3_GPIO_Port, Led_D3_Pin);
-    HAL_Delay (100);   /* Insert delay 100 ms */
-
+    HAL_Delay (1000);   /* Insert delay 100 ms */
+    logSerial("Main loop runs!\n");
 
   }
   /* USER CODE END 3 */
@@ -187,6 +201,15 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+/*
+ * Log USB Serial
+ */
+void logSerial(uint8_t *message)
+{
+ CDC_Transmit_FS(message, strlen(message));
+}
+
 
 /* USER CODE END 4 */
 
