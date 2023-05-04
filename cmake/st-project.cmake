@@ -80,12 +80,16 @@ target_link_options(
 
 target_sources(
     ${TARGET_NAME} PRIVATE
+    "Core/Src/dma.c"
+    "Core/Src/drivemotor.c"
+    "Core/Src/gpio.c"
     "Core/Src/main.c"
     "Core/Src/stm32f4xx_hal_msp.c"
     "Core/Src/stm32f4xx_it.c"
     "Core/Src/syscalls.c"
     "Core/Src/sysmem.c"
     "Core/Src/system_stm32f4xx.c"
+    "Core/Src/usart.c"
     "Core/Startup/startup_stm32f401vctx.s"
     "Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c"
     "Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c"

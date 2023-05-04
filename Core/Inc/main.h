@@ -31,7 +31,8 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-void logSerial(uint8_t *message);
+#include "string.h"
+#include <stdint.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -53,7 +54,7 @@ void logSerial(uint8_t *message);
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+void logSerial(uint8_t *message);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
