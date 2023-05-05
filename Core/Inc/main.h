@@ -55,6 +55,7 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
 void logSerial(uint8_t *message);
+void parseSerialCommand(uint8_t *command);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

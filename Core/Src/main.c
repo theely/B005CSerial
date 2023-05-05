@@ -31,7 +31,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+uint8_t usb_serial_rx_buffer[64];
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -95,20 +95,23 @@ int main(void)
   MX_USB_DEVICE_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-   logSerial("System Boot Completed!\n");
-   logSerial("Services Initializations started...\n");
-   
+  logSerial("System Boot Completed!\n");
+  logSerial("Services Initializations started...\n");
+  memset (usb_serial_rx_buffer, '\0', 64);  // clear the buffer
+  HAL_GPIO_WritePin(Led_D3_GPIO_Port, Led_D3_Pin,1);
+
+  //HAL_GPIO_WritePin(High_Voltage_Enable_GPIO_Port, High_Voltage_Enable_Pin, 1);
   logSerial("High Voltage Circuit: On\n");
 
 
-   /* Initialize Driver Motors ESC */
-   DRIVEMOTOR_Init();
+  /* Initialize Driver Motors ESC */
+  DRIVEMOTOR_Init();
 
 
-   logSerial("Driver Motors: Ready\n");
+  logSerial("Driver Motors: Ready\n");
 
 
-   logSerial("Services Initializations completed!\n");
+  logSerial("Services Initializations completed!\n");
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -122,11 +125,19 @@ int main(void)
     
   
     
-    HAL_GPIO_TogglePin (Led_D3_GPIO_Port, Led_D3_Pin);
-    HAL_Delay (1000);   /* Insert delay 100 ms */
-    logSerial("Main loop runs!\n");
-    DRIVEMOTOR_App_Rx();
-    DRIVEMOTOR_App_10ms();
+    //HAL_GPIO_TogglePin (Led_D3_GPIO_Port, Led_D3_Pin);
+    HAL_Delay (10);   /* Insert delay 100 ms */
+    //logSerial("Main loop runs!\n");
+    //DRIVEMOTOR_App_Rx();
+    //DRIVEMOTOR_App_10ms();
+
+    if (usb_serial_rx_buffer[0] != '\0')
+    {
+       parseSerialCommand(usb_serial_rx_buffer);
+       memset (usb_serial_rx_buffer, '\0', 64);  // clear the buffer
+    }
+
+
 
   }
   /* USER CODE END 3 */
@@ -187,6 +198,31 @@ void SystemClock_Config(void)
 void logSerial(uint8_t *message)
 {
  CDC_Transmit_FS(message, strlen(message));
+}
+
+
+void parseSerialCommand(uint8_t *command) {
+
+    if (strncmp(command, "speed:", 6) == 0) {
+        
+        float left, right;
+        //TODO: this is not working
+        int numMatches = sscanf(command, "speed:%f %f\n", &left, &right);
+        if (numMatches == 2) {
+            DRIVEMOTOR_SetSpeed(left, right);
+            logSerial("\n");("Set speed left to:%.2f and right to:%.2f.\n", left, right);
+        } else {
+            logSerial("Invalid speed command format: "); logSerial(command); logSerial("\n");
+        }
+
+    } else if (strncmp(command, "halt", 4) == 0) {
+          
+        DRIVEMOTOR_SetSpeed(0, 0);
+        logSerial("Ack! Halting!");
+
+    } else {
+        logSerial("Unknown command:"); logSerial(command); logSerial("\n");
+    }
 }
 
 
