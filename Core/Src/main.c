@@ -31,7 +31,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-uint8_t usb_serial_rx_buffer[64];
+uint8_t usb_serial_command[64];
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -97,7 +97,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   logSerial("System Boot Completed!\n");
   logSerial("Services Initializations started...\n");
-  memset (usb_serial_rx_buffer, '\0', 64);  // clear the buffer
+  memset (usb_serial_command, '\0', 64);  // clear the buffer
   HAL_GPIO_WritePin(Led_D3_GPIO_Port, Led_D3_Pin,1);
 
   //HAL_GPIO_WritePin(High_Voltage_Enable_GPIO_Port, High_Voltage_Enable_Pin, 1);
@@ -131,10 +131,10 @@ int main(void)
     //DRIVEMOTOR_App_Rx();
     //DRIVEMOTOR_App_10ms();
 
-    if (usb_serial_rx_buffer[0] != '\0')
+    if (usb_serial_command[0] != '\0')
     {
-       parseSerialCommand(usb_serial_rx_buffer);
-       memset (usb_serial_rx_buffer, '\0', 64);  // clear the buffer
+       parseSerialCommand(usb_serial_command);
+       memset (usb_serial_command, '\0', 64);  // clear the buffer
     }
 
 
@@ -201,18 +201,35 @@ void logSerial(uint8_t *message)
 }
 
 
+void parseSerialBuffer(uint8_t *buffer) {
+
+
+    // Returns first token
+    char* command = strtok(buffer, "\n");
+ 
+    while (command != NULL) {
+        parseSerialCommand(command);
+        command = strtok(buffer, "\n");
+    }
+
+}
+
+
+
 void parseSerialCommand(uint8_t *command) {
 
     if (strncmp(command, "speed:", 6) == 0) {
         
         float left, right;
         //TODO: this is not working
-        int numMatches = sscanf(command, "speed:%f %f\n", &left, &right);
+        int numMatches = sscanf(command+6, "%f %f", &left, &right);
         if (numMatches == 2) {
             DRIVEMOTOR_SetSpeed(left, right);
-            logSerial("\n");("Set speed left to:%.2f and right to:%.2f.\n", left, right);
+            char buffer[50];
+            sprintf(buffer, "Set speed left to:%.2f and right to:%.2f.\n",left,right);
+            logSerial((uint8_t *)buffer);
         } else {
-            logSerial("Invalid speed command format: "); logSerial(command); logSerial("\n");
+            logSerial("Invalid speed command format: '"); logSerial(command); logSerial("'\n");
         }
 
     } else if (strncmp(command, "halt", 4) == 0) {
