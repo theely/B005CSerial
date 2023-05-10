@@ -31,7 +31,9 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+#define CMD_BUFFER_SIZE 64 // size of the input buffer
+char cmd_buffer[CMD_BUFFER_SIZE];
+int8_t cmd_buffer_index = 0;
 /* USER CODE END PV */
 
 /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
@@ -49,7 +51,7 @@
   */
 
 /* USER CODE BEGIN PRIVATE_TYPES */
-extern uint8_t usb_serial_rx_buffer[64];
+extern uint8_t usb_serial_command[64];
 /* USER CODE END PRIVATE_TYPES */
 
 /**
@@ -261,19 +263,28 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
-  USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
+  // USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]); Mots probabbly not needed
+  uint8_t len = (uint8_t)*Len;
+  for(int i=0; i<len; i++){
+     if(Buf[i] == '\n'){
+         memset (usb_serial_command, '\0', 64);  // clear the buffer
+         memcpy(usb_serial_command, cmd_buffer, cmd_buffer_index);  // copy the data to the buffer
+         cmd_buffer_index=0;
+     }else{
+        cmd_buffer[cmd_buffer_index] =  Buf[i];
+        cmd_buffer_index++;
+     }
+     if(cmd_buffer_index>CMD_BUFFER_SIZE){
+       cmd_buffer_index=0;
+       logSerial("Error: Command size exceeded!");
+     }
+  }
+  
+  memset(Buf, '\0', len);   // clear Buf 
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
   
-  memset (usb_serial_rx_buffer, '\0', 64);  // clear the buffer
-  uint8_t len = (uint8_t)*Len;
-  memcpy(usb_serial_rx_buffer, Buf, len);  // copy the data to the buffer
-  memset(Buf, '\0', len);   // clear the Buf also
-  
   return (USBD_OK);
-
-
-
-
+  
   /* USER CODE END 6 */
 }
 
