@@ -34,7 +34,7 @@ set(TOOLCHAIN_PREFIX                "arm-none-eabi-")
 if(DEFINED TOOLCHAIN_DIRECTORY)
     set(TOOLCHAIN_PREFIX            "${TOOLCHAIN_DIRECTORY}/${TOOLCHAIN_PREFIX}")
 endif()
-set(FLAGS                           "-fdata-sections -ffunction-sections --specs=nano.specs -Wl,--gc-sections")
+set(FLAGS                           "-fdata-sections -ffunction-sections --specs=nano.specs -u _printf_float -u _scanf_float -Wl,--gc-sections ")
 set(ASM_FLAGS                       "-x assembler-with-cpp")
 set(CPP_FLAGS                       "-fno-rtti -fno-exceptions -fno-threadsafe-statics")
 
