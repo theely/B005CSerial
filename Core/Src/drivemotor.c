@@ -2,6 +2,9 @@
 * Includes
 *******************************************************************************/
 #include <string.h>
+#include <stdint.h>
+#include <stdio.h>
+
 #include <stdlib.h>
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_hal_uart.h"
@@ -9,6 +12,7 @@
 #include "main.h"
 #include "usart.h"
 #include "drivemotor.h" 
+
 
 /******************************************************************************
 * Module Preprocessor Constants
@@ -27,8 +31,7 @@ typedef enum {
     DRIVEMOTOR_INIT_1,
     DRIVEMOTOR_INIT_2,
     DRIVEMOTOR_RUN,
-    DRIVEMOTOR_BACKWARD,
-    DRIVEMOTOR_WAIT
+    DRIVEMOTOR_BACKWARD
 }DRIVEMOTOR_STATE_e;
 
 
@@ -125,7 +128,10 @@ void DRIVEMOTOR_Init(void){
 
 /// @brief handle drive motor messages
 /// @param  
-void DRIVEMOTOR_App_10ms(void){
+void DRIVEMOTOR_Run(void){
+
+    //Parse Driver Incoming data
+    DRIVEMOTOR_Receive();
 
     static uint32_t l_u32Timestamp = 0;
 
@@ -140,9 +146,6 @@ void DRIVEMOTOR_App_10ms(void){
         
         case DRIVEMOTOR_RUN:
             
-            /* prepare to receive the message before to launch the command */
-            HAL_UART_Receive_DMA(&huart2, (uint8_t*)&drivemotor_psReceivedData, sizeof(DRIVEMOTORS_data_t));
-
             drivemotor_prepareMsg(left_speed_req, right_speed_req, left_dir_req, right_dir_req);
             /* error State*/
             if(drivemotor_psReceivedData.u8_error != 0){
@@ -151,24 +154,6 @@ void DRIVEMOTOR_App_10ms(void){
                 logSerial("Drive Motor Error\r\n"); 
             }            
 
-            /* hit an obstacle  and move forward!!!!!! stop and wait*/
-            //if((HALLSTOP_Left_Sense() || HALLSTOP_Right_Sense()) && (left_dir_req || right_dir_req)  ){
-            //    drivemotor_prepareMsg(0,0,0,0);
-            //}
-
-
-
-            HAL_UART_Transmit_DMA(&huart2, (uint8_t*)drivemotor_pu8RqstMessage, DRIVEMOTOR_LENGTH_RQST_MSG);
-
-            break;
-
-        case DRIVEMOTOR_WAIT:  //TODO: check why this never happens
-            /* prepare to receive the message before to launch the command */
-            HAL_UART_Receive_DMA(&huart2, (uint8_t*)&drivemotor_psReceivedData, sizeof(DRIVEMOTORS_data_t));
-            drivemotor_prepareMsg(0,0,0,0);
-            if( (HAL_GetTick() - l_u32Timestamp) > 1000){
-                drivemotor_eState = DRIVEMOTOR_RUN;
-            }
             HAL_UART_Transmit_DMA(&huart2, (uint8_t*)drivemotor_pu8RqstMessage, DRIVEMOTOR_LENGTH_RQST_MSG);
 
             break;
@@ -181,10 +166,15 @@ void DRIVEMOTOR_App_10ms(void){
 
 /// @brief Decode received drive motor messages 
 /// @param  
-void DRIVEMOTOR_App_Rx(void){
+void DRIVEMOTOR_Receive(void){
     if(drivemotors_eRxFlag == RX_VALID )
     {
             /* decode */
+            /*
+            char buffer[50];
+            sprintf(buffer, "Driver Motor Response -  Error:%d Direction:%d Power:%d\n", drivemotor_psReceivedData.u8_error, drivemotor_psReceivedData.u8_direction, drivemotor_psReceivedData.u8_left_power);
+            logSerial((uint8_t *)buffer);
+            */
             uint8_t direction = drivemotor_psReceivedData.u8_direction;
             // we need to adjust for direction (+/-) !
             if ((direction & 0xc0) == 0xc0)
@@ -212,7 +202,7 @@ void DRIVEMOTOR_App_Rx(void){
                 right_direction = 0;
             }    
 
-                left_encoder_val = drivemotor_psReceivedData.u16_left_ticks;
+            left_encoder_val = drivemotor_psReceivedData.u16_left_ticks;
             right_encoder_val = drivemotor_psReceivedData.u16_right_ticks;
     
             // power consumption
@@ -245,10 +235,8 @@ void DRIVEMOTOR_App_Rx(void){
             prev_right_wheel_speed_val = right_wheel_speed_val;
             prev_right_direction = right_direction;
 
-            //TODO: migh want to add this
-            //wheelTicks_handler(left_direction, right_direction, left_encoder_ticks, right_encoder_ticks, left_wheel_speed_val, right_wheel_speed_val);
             
-            drivemotors_eRxFlag = RX_WAIT;                    // ready for next message      
+            drivemotors_eRxFlag = RX_WAIT;  // ready for next message      
 
     }
 }
@@ -282,15 +270,20 @@ void DRIVEMOTOR_SetSpeed(float left_mps, float right_mps)
     right_speed_req = abs(right_mps * PWM_PER_MPS);
     left_dir_req    = (left_mps >= 0) ? 1 : 0;
     right_dir_req   = (right_mps >= 0) ? 1 : 0;
+    logSerial("Drive Motor Speed Set\r\n"); 
 }
 
 
 
 /// @brief drive motor receive interrupt handler
 /// @param  
-void DRIVEMOTOR_ReceiveIT(void)
+void DRIVEMOTOR_UART_RxCallback(void)
 {    
-    /* decode the frame */
+    
+    //Receive data
+    HAL_UART_Receive_DMA(&huart2, (uint8_t*)&drivemotor_psReceivedData, sizeof(DRIVEMOTORS_data_t));
+
+    //validate data by comparing preable and running CRC
     if(memcmp(drivemotor_pcu8Preamble,(uint8_t*)&drivemotor_psReceivedData,5) == 0){
         uint8_t l_u8crc = crcCalc((uint8_t*)&drivemotor_psReceivedData,DRIVEMOTOR_LENGTH_RECEIVED_MSG-1);
         if(drivemotor_psReceivedData.u8_CRC == l_u8crc )
@@ -299,12 +292,14 @@ void DRIVEMOTOR_ReceiveIT(void)
         }
         else
         {
-            drivemotors_eRxFlag = RX_CRC_ERROR; 
+            drivemotors_eRxFlag = RX_CRC_ERROR;
+            logSerial("Drive Motor RX CRC Error\n");  
         }
     }
     else
     {
          drivemotors_eRxFlag = RX_INVALID_ERROR;
+         logSerial("Drive Motor RX Error\n");
     }  
 }
 

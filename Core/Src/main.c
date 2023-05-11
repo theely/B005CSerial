@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
 #include "dma.h"
 #include "usart.h"
 #include "usb_device.h"
@@ -94,13 +95,14 @@ int main(void)
   MX_DMA_Init();
   MX_USB_DEVICE_Init();
   MX_USART2_UART_Init();
+  MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
   logSerial("System Boot Completed!\n");
   logSerial("Services Initializations started...\n");
   memset (usb_serial_command, '\0', 64);  // clear the buffer
   HAL_GPIO_WritePin(Led_D3_GPIO_Port, Led_D3_Pin,1);
 
-  //HAL_GPIO_WritePin(High_Voltage_Enable_GPIO_Port, High_Voltage_Enable_Pin, 1);
+  HAL_GPIO_WritePin(High_Voltage_Enable_GPIO_Port, High_Voltage_Enable_Pin, 1);
   logSerial("High Voltage Circuit: On\n");
 
 
@@ -121,22 +123,17 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
-    
-  
-    
-    //HAL_GPIO_TogglePin (Led_D3_GPIO_Port, Led_D3_Pin);
-    HAL_Delay (10);   /* Insert delay 100 ms */
-    //logSerial("Main loop runs!\n");
-    //DRIVEMOTOR_App_Rx();
-    //DRIVEMOTOR_App_10ms();
+    HAL_GPIO_TogglePin (Led_D3_GPIO_Port, Led_D3_Pin);
 
     if (usb_serial_command[0] != '\0')
     {
        parseSerialCommand(usb_serial_command);
-       memset (usb_serial_command, '\0', 64);  // clear the buffer
+       memset (usb_serial_command, '\0', 64);  // clear buffer
     }
 
+    DRIVEMOTOR_Run();
+
+    HAL_Delay (100);   /* Insert delay 100 ms */
 
 
   }
@@ -228,6 +225,7 @@ void parseSerialCommand(uint8_t *command) {
             char buffer[50];
             sprintf(buffer, "Set speed left to:%.2f and right to:%.2f.\n",left,right);
             logSerial((uint8_t *)buffer);
+            DRIVEMOTOR_SetSpeed(left, right);
         } else {
             logSerial("Invalid speed command format: '"); logSerial(command); logSerial("'\n");
         }
@@ -241,6 +239,7 @@ void parseSerialCommand(uint8_t *command) {
         logSerial("Unknown command:"); logSerial(command); logSerial("\n");
     }
 }
+
 
 
 /* USER CODE END 4 */

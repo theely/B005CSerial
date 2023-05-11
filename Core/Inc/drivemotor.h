@@ -42,9 +42,9 @@ typedef enum {
 
 
 void DRIVEMOTOR_Init(void);
-void DRIVEMOTOR_App_10ms(void);
-void DRIVEMOTOR_App_Rx(void);
-void DRIVEMOTOR_ReceiveIT(void);
+void DRIVEMOTOR_Run(void);
+void DRIVEMOTOR_Receive(void);
+void DRIVEMOTOR_UART_RxCallback(void);
 void DRIVEMOTOR_SetSpeed(float left_mps, float right_mps);
 uint8_t crcCalc(uint8_t *msg, uint8_t msg_len);
 #ifdef __cplusplus
