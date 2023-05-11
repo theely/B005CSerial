@@ -80,6 +80,7 @@ target_link_options(
 
 target_sources(
     ${TARGET_NAME} PRIVATE
+    "Core/Src/adc.c"
     "Core/Src/dma.c"
     "Core/Src/drivemotor.c"
     "Core/Src/gpio.c"
@@ -95,6 +96,8 @@ target_sources(
     "Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c"
     "Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c"
     "Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c"
+    "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc_ex.c"
+    "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_adc.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_cortex.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma_ex.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c"
@@ -113,6 +116,7 @@ target_sources(
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c"
+    "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_adc.c"
     "Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c"
     "USB_DEVICE/App/usb_device.c"
     "USB_DEVICE/App/usbd_cdc_if.c"
