@@ -105,11 +105,7 @@ void MX_ADC1_Init(void)
   if(HAL_ADC_Start_IT(&hadc1) != HAL_OK){
         Error_Handler();
   }
-  if(HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1) != HAL_OK){
-                Error_Handler();
-  }
                 
-
     ampere_acc.u[0] = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1);
     ampere_acc.u[1] = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR2);
 
