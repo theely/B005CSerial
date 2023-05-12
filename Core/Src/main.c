@@ -100,27 +100,30 @@ int main(void)
   MX_TIM2_Init();
   MX_RTC_Init();
   MX_ADC1_Init();
+
   /* USER CODE BEGIN 2 */
   logSerial("System Boot Completed!\n");
   logSerial("Services Initializations started...\n");
   memset (usb_serial_command, '\0', 64);  // clear the buffer
   HAL_GPIO_WritePin(Led_D3_GPIO_Port, Led_D3_Pin,1);
+  
+  /* init Status update variables*/
+  int cycle = 0;
+  static char status_buffer[150];
 
+  /* Enable high voltage*/
   HAL_GPIO_WritePin(High_Voltage_Enable_GPIO_Port, High_Voltage_Enable_Pin, 1);
   logSerial("High Voltage Circuit: On\n");
 
 
   /* Initialize Driver Motors ESC */
   DRIVEMOTOR_Init();
-
-
   logSerial("Driver Motors: Ready\n");
 
 
   logSerial("Services Initializations completed!\n");
 
-   int cycle = 0;
-   static char status_buffer[150];
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -139,7 +142,7 @@ int main(void)
     }
 
     DRIVEMOTOR_Run();
-    ADC_input();
+    ADC_Update();
 
     cycle++;
     if(cycle%10==0){  //100ms
@@ -154,10 +157,7 @@ int main(void)
       cycle=1;
     }
 
-
-
-
-    HAL_Delay (10);   /* Insert delay 100 ms */
+    HAL_Delay (10);   /* Insert delay 10 ms */
 
 
   }

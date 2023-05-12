@@ -67,7 +67,7 @@ void MX_ADC1_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 void adc_SetChannel(ADC_channelSelection_e channel);
-void ADC_input(void);
+void ADC_Update(void);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

@@ -315,7 +315,7 @@ void adc_SetChannel(ADC_channelSelection_e channel)
     }
 }
 
-void ADC_input(void)
+void ADC_Update(void)
 {
     float l_fTmp;
 
