@@ -83,6 +83,7 @@ target_sources(
     "Core/Src/adc.c"
     "Core/Src/dma.c"
     "Core/Src/drivemotor.c"
+    "Core/Src/emergency.c"
     "Core/Src/gpio.c"
     "Core/Src/main.c"
     "Core/Src/rtc.c"

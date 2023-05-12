@@ -25,6 +25,7 @@
 #include "usart.h"
 #include "usb_device.h"
 #include "gpio.h"
+#include "emergency.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -142,6 +143,13 @@ int main(void)
 
     DRIVEMOTOR_Run();
     ADC_Update();
+    EMERGENCY_Update();
+
+    if (EMERGENCY_State())
+		{
+			DRIVEMOTOR_SetSpeed(0, 0);
+			//BLADEMOTOR_Set(0);
+		}
 
     cycle++;
     if(cycle%10==0){  //100ms
