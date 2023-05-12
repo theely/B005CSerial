@@ -35,13 +35,39 @@ extern "C" {
 extern ADC_HandleTypeDef hadc1;
 
 /* USER CODE BEGIN Private defines */
+typedef enum
+{
+    ADC2_CHANNEL_CURRENT = 0,
+    ADC2_CHANNEL_CHARGEVOLTAGE,
+    ADC2_CHANNEL_BATTERYVOLTAGE,
+    ADC2_CHANNEL_CHARGERINPUTVOLTAGE,
+    ADC2_CHANNEL_NTC,
+    ADC2_CHANNEL_PERIMETER,
+    ADC2_CHANNEL_MAX,
+} ADC_channelSelection_e;
+
+union FtoU{
+  float  f;
+  uint16_t u[2];
+};
+
+extern float battery_voltage;
+extern float charge_voltage;
+extern float current;
+extern float current_without_offset;
+extern float blade_temperature;
+extern float chargerInputVoltage;
+
+extern union FtoU ampere_acc;
+extern union FtoU charge_current_offset;
 
 /* USER CODE END Private defines */
 
 void MX_ADC1_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+void adc_SetChannel(ADC_channelSelection_e channel);
+void ADC_input(void);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
