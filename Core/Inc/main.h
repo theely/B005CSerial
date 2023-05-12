@@ -59,6 +59,18 @@ void parseSerialCommand(uint8_t *command);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define Blade_NTC_Pin GPIO_PIN_2
+#define Blade_NTC_GPIO_Port GPIOC
+#define Charge_Current_Pin GPIO_PIN_1
+#define Charge_Current_GPIO_Port GPIOA
+#define Charge_Voltage_Pin GPIO_PIN_2
+#define Charge_Voltage_GPIO_Port GPIOA
+#define Battery_Voltage_Pin GPIO_PIN_3
+#define Battery_Voltage_GPIO_Port GPIOA
+#define Perimeter_Pin GPIO_PIN_6
+#define Perimeter_GPIO_Port GPIOA
+#define Charger_Input_Voltage_Pin GPIO_PIN_7
+#define Charger_Input_Voltage_GPIO_Port GPIOA
 #define High_Voltage_Enable_Pin GPIO_PIN_5
 #define High_Voltage_Enable_GPIO_Port GPIOC
 #define Led_D3_Pin GPIO_PIN_2

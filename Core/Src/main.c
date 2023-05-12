@@ -20,6 +20,8 @@
 #include "main.h"
 #include "adc.h"
 #include "dma.h"
+#include "rtc.h"
+#include "tim.h"
 #include "usart.h"
 #include "usb_device.h"
 #include "gpio.h"
@@ -95,6 +97,8 @@ int main(void)
   MX_DMA_Init();
   MX_USB_DEVICE_Init();
   MX_USART2_UART_Init();
+  MX_TIM2_Init();
+  MX_RTC_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
   logSerial("System Boot Completed!\n");
@@ -114,6 +118,9 @@ int main(void)
 
 
   logSerial("Services Initializations completed!\n");
+
+   int cycle = 0;
+   static char status_buffer[150];
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -123,7 +130,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    HAL_GPIO_TogglePin (Led_D3_GPIO_Port, Led_D3_Pin);
+    
 
     if (usb_serial_command[0] != '\0')
     {
@@ -132,8 +139,25 @@ int main(void)
     }
 
     DRIVEMOTOR_Run();
+    ADC_input();
 
-    HAL_Delay (100);   /* Insert delay 100 ms */
+    cycle++;
+    if(cycle%10==0){  //100ms
+      HAL_GPIO_TogglePin (Led_D3_GPIO_Port, Led_D3_Pin);
+    }
+    if(cycle%100==0){ //1s
+        
+        sprintf(status_buffer, "Status [Vbat: %.2f] [Current: %.2f] [Blade Temp: %.2f] \n",battery_voltage,current, blade_temperature);
+        logSerial((uint8_t *)status_buffer);
+    }
+    if(cycle>1000){
+      cycle=1;
+    }
+
+
+
+
+    HAL_Delay (10);   /* Insert delay 100 ms */
 
 
   }
@@ -157,10 +181,12 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSI
+                              |RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 4;
