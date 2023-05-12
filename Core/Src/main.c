@@ -97,10 +97,9 @@ int main(void)
   MX_DMA_Init();
   MX_USB_DEVICE_Init();
   MX_USART2_UART_Init();
+  MX_ADC1_Init();
   MX_TIM2_Init();
   MX_RTC_Init();
-  MX_ADC1_Init();
-
   /* USER CODE BEGIN 2 */
   logSerial("System Boot Completed!\n");
   logSerial("Services Initializations started...\n");

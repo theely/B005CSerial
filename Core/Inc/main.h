@@ -79,6 +79,10 @@ void parseSerialCommand(uint8_t *command);
 #define Driver_Motor_Enable_GPIO_Port GPIOE
 #define Driver_Motor_EnableD8_Pin GPIO_PIN_8
 #define Driver_Motor_EnableD8_GPIO_Port GPIOD
+#define Wheel_lift_blue_Pin GPIO_PIN_0
+#define Wheel_lift_blue_GPIO_Port GPIOD
+#define Wheel_lift_red_Pin GPIO_PIN_1
+#define Wheel_lift_red_GPIO_Port GPIOD
 #define Driver_Motor_EnableD7_Pin GPIO_PIN_7
 #define Driver_Motor_EnableD7_GPIO_Port GPIOD
 
