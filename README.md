@@ -43,7 +43,7 @@
 | A1  | Charge Current  | ADC1  |   |
 |  A2 | Charge Voltage  | ADC1  |   |
 | A3  | Battery Voltage  | ADC1  |   |
-|  A7 | Charger Voltage  | ADC1  |   |
+|  A7 | Charger Input Voltage  | ADC1  |   |
 |  C2 | Blade NTC  |  ADC1 |   |
 |  A6 | Perimeter  | ADC1 (DMA)  |   |
 | H0  | Crystal 8Mhz  | RCC HSE   |   |
