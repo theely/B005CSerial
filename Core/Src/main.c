@@ -25,12 +25,13 @@
 #include "usart.h"
 #include "usb_device.h"
 #include "gpio.h"
-#include "emergency.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usbd_cdc_if.h"
 #include "drivemotor.h" 
+#include "blademotor.h" 
+#include "emergency.h" 
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -101,6 +102,7 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM2_Init();
   MX_RTC_Init();
+  MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
   logSerial("System Boot Completed!\n");
   logSerial("Services Initializations started...\n");
@@ -119,7 +121,9 @@ int main(void)
   /* Initialize Driver Motors ESC */
   DRIVEMOTOR_Init();
   logSerial("Driver Motors: Ready\n");
-
+    /* Initialize Blade Motors ESC */
+  BLADEMOTOR_Init();
+  logSerial("Blade Motor: Ready\n");
 
   logSerial("Services Initializations completed!\n");
 
@@ -142,14 +146,15 @@ int main(void)
     }
 
     DRIVEMOTOR_Run();
+    BLADEMOTOR_Run();
     ADC_Update();
     EMERGENCY_Update();
 
-    if (EMERGENCY_State())
+    /*if (EMERGENCY_State())
 		{
 			DRIVEMOTOR_SetSpeed(0, 0);
-			//BLADEMOTOR_Set(0);
-		}
+			BLADEMOTOR_Set(0);
+		}*/
 
     cycle++;
     if(cycle%10==0){  //100ms
@@ -262,10 +267,14 @@ void parseSerialCommand(uint8_t *command) {
         } else {
             logSerial("Invalid speed command format: '"); logSerial(command); logSerial("'\n");
         }
-
+    } else if (strncmp(command, "cut", 3) == 0) {
+          
+        BLADEMOTOR_Set(1);
+ 
     } else if (strncmp(command, "halt", 4) == 0) {
           
         DRIVEMOTOR_SetSpeed(0, 0);
+        BLADEMOTOR_Set(0);
         logSerial("Ack! Halting!");
 
     } else {

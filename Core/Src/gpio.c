@@ -59,7 +59,7 @@ void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(Led_D3_GPIO_Port, Led_D3_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(Driver_Motor_Enable_GPIO_Port, Driver_Motor_Enable_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOE, Blade_Motor_Reset_Pin|Driver_Motor_Enable_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, Driver_Motor_EnableD8_Pin|Driver_Motor_EnableD7_Pin, GPIO_PIN_RESET);
@@ -78,12 +78,12 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(Led_D3_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PtPin */
-  GPIO_InitStruct.Pin = Driver_Motor_Enable_Pin;
+  /*Configure GPIO pins : PEPin PEPin */
+  GPIO_InitStruct.Pin = Blade_Motor_Reset_Pin|Driver_Motor_Enable_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(Driver_Motor_Enable_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PDPin PDPin */
   GPIO_InitStruct.Pin = Driver_Motor_EnableD8_Pin|Driver_Motor_EnableD7_Pin;

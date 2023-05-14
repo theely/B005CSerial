@@ -75,6 +75,8 @@ void parseSerialCommand(uint8_t *command);
 #define High_Voltage_Enable_GPIO_Port GPIOC
 #define Led_D3_Pin GPIO_PIN_2
 #define Led_D3_GPIO_Port GPIOB
+#define Blade_Motor_Reset_Pin GPIO_PIN_14
+#define Blade_Motor_Reset_GPIO_Port GPIOE
 #define Driver_Motor_Enable_Pin GPIO_PIN_15
 #define Driver_Motor_Enable_GPIO_Port GPIOE
 #define Driver_Motor_EnableD8_Pin GPIO_PIN_8

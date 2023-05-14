@@ -34,14 +34,17 @@ extern "C" {
 
 extern UART_HandleTypeDef huart2;
 
+extern UART_HandleTypeDef huart6;
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
 void MX_USART2_UART_Init(void);
+void MX_USART6_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+uint8_t crcCalc(uint8_t *msg, uint8_t msg_len);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
