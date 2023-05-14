@@ -4,20 +4,20 @@
 
 | PIN  | Peripheral  | Type | Config   |
 |---|---|---|---|
-| D14 (TODO:not working)  | Buzzer   | PWM  | TIM4_CH3  |
-| B1  (TODO:not working)  | Beeper   | PWM  | TIM43_CH4  |
-|  E8 (TODO)| Charge Control Pins  |  TIM1_CH1N | HighSide/LowSide MosFET   |
-|  E9 (TODO)| Charge Control Pins  | TIM1_CH1   | HighSide/LowSide MosFET  |
 |  C0 | Stop button  | GPIO  | yellow (HIGH when pressed) GPIO_MODE_INPUT GPIO_PULLDOWN  |
 |  C8 (TODO: CONFLICT UART6) | Stop button  | GPIO  | white (HIGH when pressed)  GPIO_MODE_INPUT GPIO_PULLDOWN  |
 | A8  |  Mechanical tilt  | GPIO  |  (HIGH when set) GPIO_MODE_INPUT GPIO_PULLDOWN |
 | C7 (TODO: CONFLICT UART6)   | Play button  | GPIO  |  (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP |
 | B13  | Home button  | GPIO  | (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP  |
 |  E2 |   Rain Sensor | GPIO  | (LOW when active)  GPIO_MODE_INPUT GPIO_PULLUP  |
-| A10 (TODO) | Panle UART Port J16  |  UART1 RX (DMA) |   |
-| A9  (TODO)| Panle UART Port J16  | UART1 TX (DMA)  |   |
 | B8  (TODO)| Perimeter Sense Control  | GPIO  |  GPIO_MODE_OUTPUT_PP |
 | B9  (TODO)| Perimeter Sense Control  | GPIO  | GPIO_MODE_OUTPUT_PP  |
+| A10 (TODO) | Panle UART Port J16  |  UART1 RX (DMA) |   |
+| A9  (TODO)| Panle UART Port J16  | UART1 TX (DMA)  |   |
+| D14 (TODO:not working)  | Buzzer   | PWM  | TIM4_CH3  |
+| B1  (TODO:not working)  | Beeper   | PWM  | TIM43_CH4  |
+|  E8 (TODO)| Charge Control Pins  |  TIM1_CH1N | HighSide/LowSide MosFET   |
+|  E9 (TODO)| Charge Control Pins  | TIM1_CH1   | HighSide/LowSide MosFET  |
 |  B2 | LED  | GPIO  | GPIO_MODE_OUTPUT_PP GPIO_PULLDOWN GPIO_SPEED_HIGH  |
 |  C5 |  24V Enable | GPIO  | GPIO_MODE_OUTPUT_PP GPIO_NOPULL GPIO_SPEED_HIGH  |
 |  E14 | Blade Motor nRESET  | GPIO  | (HIGH for no RESET) GPIO_MODE_OUTPUT_PP GPIO_NOPULL GPIO_SPEED_HIGH  |
