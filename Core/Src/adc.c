@@ -142,7 +142,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(Blade_NTC_GPIO_Port, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = Charge_Current_Pin|Charge_Voltage_Pin|Battery_Voltage_Pin|Perimeter_Pin
+    GPIO_InitStruct.Pin = Charge_Current_Pin|Charge_Voltage_Pin|Battery_Voltage_Pin|Perimeter_Sense_Pin
                           |Charger_Input_Voltage_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -178,7 +178,7 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
     */
     HAL_GPIO_DeInit(Blade_NTC_GPIO_Port, Blade_NTC_Pin);
 
-    HAL_GPIO_DeInit(GPIOA, Charge_Current_Pin|Charge_Voltage_Pin|Battery_Voltage_Pin|Perimeter_Pin
+    HAL_GPIO_DeInit(GPIOA, Charge_Current_Pin|Charge_Voltage_Pin|Battery_Voltage_Pin|Perimeter_Sense_Pin
                           |Charger_Input_Voltage_Pin);
 
     /* ADC1 interrupt Deinit */

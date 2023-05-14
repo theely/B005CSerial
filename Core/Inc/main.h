@@ -59,6 +59,8 @@ void parseSerialCommand(uint8_t *command);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define Rain_Sensor_Pin GPIO_PIN_2
+#define Rain_Sensor_GPIO_Port GPIOE
 #define Blade_NTC_Pin GPIO_PIN_2
 #define Blade_NTC_GPIO_Port GPIOC
 #define Charge_Current_Pin GPIO_PIN_1
@@ -67,8 +69,8 @@ void parseSerialCommand(uint8_t *command);
 #define Charge_Voltage_GPIO_Port GPIOA
 #define Battery_Voltage_Pin GPIO_PIN_3
 #define Battery_Voltage_GPIO_Port GPIOA
-#define Perimeter_Pin GPIO_PIN_6
-#define Perimeter_GPIO_Port GPIOA
+#define Perimeter_Sense_Pin GPIO_PIN_6
+#define Perimeter_Sense_GPIO_Port GPIOA
 #define Charger_Input_Voltage_Pin GPIO_PIN_7
 #define Charger_Input_Voltage_GPIO_Port GPIOA
 #define High_Voltage_Enable_Pin GPIO_PIN_5
@@ -79,14 +81,22 @@ void parseSerialCommand(uint8_t *command);
 #define Blade_Motor_Reset_GPIO_Port GPIOE
 #define Driver_Motor_Enable_Pin GPIO_PIN_15
 #define Driver_Motor_Enable_GPIO_Port GPIOE
+#define Home_Button_Pin GPIO_PIN_13
+#define Home_Button_GPIO_Port GPIOB
 #define Driver_Motor_EnableD8_Pin GPIO_PIN_8
 #define Driver_Motor_EnableD8_GPIO_Port GPIOD
+#define Mechanical_Tilt_Pin GPIO_PIN_8
+#define Mechanical_Tilt_GPIO_Port GPIOA
 #define Wheel_lift_blue_Pin GPIO_PIN_0
 #define Wheel_lift_blue_GPIO_Port GPIOD
 #define Wheel_lift_red_Pin GPIO_PIN_1
 #define Wheel_lift_red_GPIO_Port GPIOD
 #define Driver_Motor_EnableD7_Pin GPIO_PIN_7
 #define Driver_Motor_EnableD7_GPIO_Port GPIOD
+#define Perimeter_Sense_Control_Pin GPIO_PIN_8
+#define Perimeter_Sense_Control_GPIO_Port GPIOB
+#define Perimeter_Sense_ControlB9_Pin GPIO_PIN_9
+#define Perimeter_Sense_ControlB9_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 
