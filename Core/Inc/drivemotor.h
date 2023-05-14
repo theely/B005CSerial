@@ -46,7 +46,7 @@ void DRIVEMOTOR_Run(void);
 void DRIVEMOTOR_Receive(void);
 void DRIVEMOTOR_UART_RxCallback(void);
 void DRIVEMOTOR_SetSpeed(float left_mps, float right_mps);
-uint8_t crcCalc(uint8_t *msg, uint8_t msg_len);
+
 #ifdef __cplusplus
 }
 #endif

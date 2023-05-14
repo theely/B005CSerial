@@ -343,14 +343,3 @@ __STATIC_INLINE  void  drivemotor_prepareMsg(uint8_t left_speed, uint8_t right_s
     drivemotor_pu8RqstMessage[11] = crcCalc(drivemotor_pu8RqstMessage, DRIVEMOTOR_LENGTH_RQST_MSG-1);
 }
 
-uint8_t crcCalc(uint8_t *msg, uint8_t msg_len)
-{
-  uint8_t crc = 0x0;
-  uint8_t i;
-
-  for (i = 0; i < msg_len; i++)
-  {
-    crc += msg[i];
-  }
-  return (crc);
-}
