@@ -32,8 +32,8 @@
 |  C10 (TODO: NOT FOUND) | UMaster UART Red Port J18  | UART4 TX (DMA)  |   |
 | D6  | Driver motros  |  UART2 RX (DMA)  |   |
 | D5  | Driver motros  |  UART2 TX (DMA)  |   |
-| C7 or A12 (TODO: Check new port) | Blade motoror  | UART6 RX (DMA)  |   |
-| C6 or A11 (TODO: Check new port)  | Blade motor  |  UART6 TX (DMA) |   |
+| C7  | Blade motoror  | UART6 RX (DMA)  |   |
+| C6   | Blade motor  |  UART6 TX (DMA) |   |
 | A12  | USB Serial  | USB_DP  |   |
 |  A11 | USB Serial  | USB_DM  |   |
 | A10  | Panle UART Port J16  |  UART1 RX (DMA) |   |
