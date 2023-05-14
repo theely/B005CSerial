@@ -14,8 +14,6 @@
 | C7 (TODO: CONFLICT UART6)   | Play button  | GPIO  |  (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP |
 | B13  | Home button  | GPIO  | (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP  |
 |  E2 |   Rain Sensor | GPIO  | (LOW when active)  GPIO_MODE_INPUT GPIO_PULLUP  |
-| C11 (TODO: NOT FOUND)  | Master UART Red Port J18   | UART4 RX (DMA)  |   |
-|  C10 (TODO: NOT FOUND) | UMaster UART Red Port J18  | UART4 TX (DMA)  |   |
 | A10 (TODO) | Panle UART Port J16  |  UART1 RX (DMA) |   |
 | A9  (TODO)| Panle UART Port J16  | UART1 TX (DMA)  |   |
 | B8  (TODO)| Perimeter Sense Control  | GPIO  |  GPIO_MODE_OUTPUT_PP |
@@ -50,4 +48,5 @@
 |  B4 [not used]| Flash MISO  |  SPI3 |   |
 | B5  [not used]|  SPI3 Flash MISI |  SPI3 |   |
 | A15 [not used] |  Flash nCS |  GPIO | GPIO_MODE_OUTPUT_PP GPIO_PULLUP GPIO_SPEED_HIGH  |
- 
+| C11 [not used](TODO: NOT FOUND)  | Master UART Red Port J18   | UART4 RX (DMA)  |   |
+|  C10 [not used](TODO: NOT FOUND) | UMaster UART Red Port J18  | UART4 TX (DMA)  |   |
