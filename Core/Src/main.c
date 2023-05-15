@@ -52,7 +52,14 @@ uint8_t usb_serial_command[64];
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+typedef enum {
+    WAITING=0,
+    ARMED,
+    DISARMED,
+}STATE_e;
 
+
+STATE_e status = WAITING;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -111,7 +118,6 @@ int main(void)
   
   /* init Status update variables*/
   int cycle = 0;
-  static char status_buffer[150];
 
   /* Enable high voltage*/
   HAL_GPIO_WritePin(High_Voltage_Enable_GPIO_Port, High_Voltage_Enable_Pin, 1);
@@ -154,6 +160,7 @@ int main(void)
 		{
 			DRIVEMOTOR_SetSpeed(0, 0);
 			BLADEMOTOR_Set(0);
+      status=DISARMED;
 		}*/
 
     cycle++;
@@ -161,9 +168,7 @@ int main(void)
       HAL_GPIO_TogglePin (Led_D3_GPIO_Port, Led_D3_Pin);
     }
     if(cycle%100==0){ //1s
-        
-        sprintf(status_buffer, "Status [Vbat: %.2f] [Current: %.2f] [Blade Temp: %.2f] \n",battery_voltage,current, blade_temperature);
-        logSerial((uint8_t *)status_buffer);
+        //logStatus();
     }
     if(cycle>1000){
       cycle=1;
@@ -253,7 +258,7 @@ void parseSerialBuffer(uint8_t *buffer) {
 
 void parseSerialCommand(uint8_t *command) {
 
-    if (strncmp(command, "speed:", 6) == 0) {
+    if (strncmp(command, "speed:", 6) == 0 && status==ARMED) {
         
         float left, right;
         //TODO: this is not working
@@ -267,14 +272,17 @@ void parseSerialCommand(uint8_t *command) {
         } else {
             logSerial("Invalid speed command format: '"); logSerial(command); logSerial("'\n");
         }
-    } else if (strncmp(command, "cut", 3) == 0) {
-          
+    } else if (strncmp(command, "cut", 3) == 0 && status==ARMED) {
+  
         BLADEMOTOR_Set(1);
  
+    } else if (strncmp(command, "arm", 4) == 0) {
+        status=ARMED;
     } else if (strncmp(command, "halt", 4) == 0) {
           
         DRIVEMOTOR_SetSpeed(0, 0);
         BLADEMOTOR_Set(0);
+        status=DISARMED;
         logSerial("Ack! Halting!");
 
     } else {
@@ -282,7 +290,33 @@ void parseSerialCommand(uint8_t *command) {
     }
 }
 
+int RAIN_Sense(void)
+{
+  return (!HAL_GPIO_ReadPin(Rain_Sensor_GPIO_Port, Rain_Sensor_Pin)); // pullup, active low
+}
 
+int BUTTON_Home(void)
+{
+  return (!HAL_GPIO_ReadPin(Home_Button_GPIO_Port, Home_Button_Pin)); // pullup, active low
+}
+
+void logStatus() {
+
+  static char status_buffer[150];
+  sprintf(status_buffer, "{\
+          'status':%d,\
+          'blade':%d,\
+          'speed':{'left':%.2f,'right':%.2f},\
+          'emergency':%d,\
+          'rain':%d,\
+          'home':%d,\
+          'vbat': %.2f, \
+          'current': %.2f,\
+          'blade Temp': %.2f\
+           }\n",status,0,0,0,EMERGENCY_State(),RAIN_Sense(),BUTTON_Home(),battery_voltage,current, blade_temperature);
+  logSerial((uint8_t *)status_buffer);
+
+}
 
 /* USER CODE END 4 */
 

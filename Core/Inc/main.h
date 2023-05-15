@@ -56,11 +56,16 @@ void Error_Handler(void);
 /* USER CODE BEGIN EFP */
 void logSerial(uint8_t *message);
 void parseSerialCommand(uint8_t *command);
+void logStatus(void);
+int RAIN_Sense(void);
+int BUTTON_Home(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
 #define Rain_Sensor_Pin GPIO_PIN_2
 #define Rain_Sensor_GPIO_Port GPIOE
+#define Stop_Button_Yellow_Pin GPIO_PIN_0
+#define Stop_Button_Yellow_GPIO_Port GPIOC
 #define Blade_NTC_Pin GPIO_PIN_2
 #define Blade_NTC_GPIO_Port GPIOC
 #define Charge_Current_Pin GPIO_PIN_1

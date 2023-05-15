@@ -31,16 +31,14 @@ void  Emergency_SetState(uint8_t new_emergency_state)
 
 int Emergency_Tilt(void)
 {
-   return 0;
-   //TODO: return(HAL_GPIO_ReadPin(TILT_PORT, TILT_PIN));
+   return(HAL_GPIO_ReadPin(Mechanical_Tilt_GPIO_Port, Mechanical_Tilt_Pin));
 }
 
 
 
 int Emergency_StopButtonYellow(void)
 {
-   return 0;
-   //TODO: return(HAL_GPIO_ReadPin(STOP_BUTTON_YELLOW_PORT, STOP_BUTTON_YELLOW_PIN));
+   return(HAL_GPIO_ReadPin(Stop_Button_Yellow_GPIO_Port, Stop_Button_Yellow_Pin));
 }
 
 int Emergency_StopButtonWhite(void)
