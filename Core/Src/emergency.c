@@ -43,8 +43,7 @@ int Emergency_StopButtonYellow(void)
 
 int Emergency_StopButtonWhite(void)
 {
-    return 0;
-   //TODO: return(HAL_GPIO_ReadPin(STOP_BUTTON_WHITE_PORT, STOP_BUTTON_WHITE_PIN));
+    return(HAL_GPIO_ReadPin(Stop_Button_White_GPIO_Port, Stop_Button_White_Pin));
 }
 
 
