@@ -42,11 +42,11 @@
 | A9  [not used]|  Master UART Port J16 | UART1 TX  |   |
 | B3 [not used]  |  SOFT I2C | GPIO  |   |
 | B4 [not used]  |  SOFT I2C |  GPIO |   |
-|  D2 [not used]?|  STOP HALL Sensor  | GPIO  | (HIGH when set) TODO: find config  |
-| D3  [not used]?|  STOP HALL Sensor |  GPIO |  (HIGH when set) TODO: find config |
+|  D2 [not used]|  STOP HALL Sensor  | GPIO  | (HIGH when set) TODO: find config  |
+| D3  [not used]|  STOP HALL Sensor |  GPIO |  (HIGH when set) TODO: find config |
 |  B3 [not used]| Flash CLK  | SPI3  |   |
 |  B4 [not used]| Flash MISO  |  SPI3 |   |
 | B5  [not used]|  SPI3 Flash MISI |  SPI3 |   |
-| A15 [not used] |  Flash nCS |  GPIO | GPIO_MODE_OUTPUT_PP GPIO_PULLUP GPIO_SPEED_HIGH  |
-| C11 [not used](TODO: NOT FOUND)  | Master UART Red Port J18   | UART4 RX (DMA)  |   |
-|  C10 [not used](TODO: NOT FOUND) | UMaster UART Red Port J18  | UART4 TX (DMA)  |   |
+| A15 [not used]|  Flash nCS |  GPIO | GPIO_MODE_OUTPUT_PP GPIO_PULLUP GPIO_SPEED_HIGH  |
+| C11 [not used]| Master UART Red Port J18   | UART4 RX (DMA)  |   |
+|  C10 [not used]| UMaster UART Red Port J18  | UART4 TX (DMA)  |   |
