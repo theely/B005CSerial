@@ -4,6 +4,8 @@
 
 | PIN  | Peripheral  | Type | Config   |
 |---|---|---|---|
+|  E8 (TODO)| Charge Control Pins  |  TIM1_CH1N | HighSide/LowSide MosFET   |
+|  E9 (TODO)| Charge Control Pins  | TIM1_CH1   | HighSide/LowSide MosFET  |
 | A8 (TODO: not working - check C15 to C13)  |  Mechanical tilt  | GPIO  |  (HIGH when set) GPIO_MODE_INPUT GPIO_PULLDOWN |
 | C7 (TODO: CONFLICT UART6)   | Play button  | GPIO  |  (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP |
 | B8  (TODO)| Perimeter Sense Control  | GPIO  |  GPIO_MODE_OUTPUT_PP |
@@ -12,8 +14,6 @@
 | A9  (TODO)| Panle UART Port J16  | UART1 TX (DMA)  |   |
 | D14 (TODO:not working)  | Buzzer   | PWM  | TIM4_CH3  |
 | B1  (TODO:not working)  | Beeper   | PWM  | TIM43_CH4  |
-|  E8 (TODO)| Charge Control Pins  |  TIM1_CH1N | HighSide/LowSide MosFET   |
-|  E9 (TODO)| Charge Control Pins  | TIM1_CH1   | HighSide/LowSide MosFET  |
 | B13  | Home button  | GPIO  | (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP  |
 |  E2 |   Rain Sensor | GPIO  | (LOW when active)  GPIO_MODE_INPUT GPIO_PULLUP  |
 |  C0 | Stop button  | GPIO  | yellow (HIGH when pressed) GPIO_MODE_INPUT GPIO_PULLDOWN  |
