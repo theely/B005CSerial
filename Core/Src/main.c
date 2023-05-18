@@ -168,7 +168,7 @@ int main(void)
       HAL_GPIO_TogglePin (Led_D3_GPIO_Port, Led_D3_Pin);
     }
     if(cycle%100==0){ //1s
-        //logStatus();
+        logStatus();
     }
     if(cycle>1000){
       cycle=1;
@@ -302,7 +302,7 @@ int BUTTON_Home(void)
 
 void logStatus() {
 
-  static char status_buffer[150];
+  static char status_buffer[200];
   sprintf(status_buffer, "{\
           'status':%d,\
           'blade':%d,\
@@ -313,7 +313,7 @@ void logStatus() {
           'vbat': %.2f, \
           'current': %.2f,\
           'blade Temp': %.2f\
-           }\n",status,0,0,0,EMERGENCY_State(),RAIN_Sense(),BUTTON_Home(),battery_voltage,current, blade_temperature);
+           }\n",status,0,0.0,0.0,EMERGENCY_State(),RAIN_Sense(),BUTTON_Home(),battery_voltage,current, blade_temperature);
   logSerial((uint8_t *)status_buffer);
 
 }
