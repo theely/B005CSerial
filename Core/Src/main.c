@@ -24,6 +24,7 @@
 #include "tim.h"
 #include "usart.h"
 #include "usb_device.h"
+#include "wwdg.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -112,6 +113,7 @@ int main(void)
   MX_RTC_Init();
   MX_USART6_UART_Init();
   MX_TIM1_Init();
+  MX_WWDG_Init();
   /* USER CODE BEGIN 2 */
   logSerial("System Boot Completed!\n");
   logSerial("Services Initializations started...\n");
@@ -186,7 +188,7 @@ int main(void)
     if(cycle>1000){
       cycle=1;
     }
-
+    HAL_WWDG_Refresh(&hwwdg);
     HAL_Delay (10);   /* Insert delay 10 ms */
 
 
