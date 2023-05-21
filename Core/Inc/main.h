@@ -82,6 +82,10 @@ int BUTTON_Home(void);
 #define High_Voltage_Enable_GPIO_Port GPIOC
 #define Led_D3_Pin GPIO_PIN_2
 #define Led_D3_GPIO_Port GPIOB
+#define Charger_Control_Lowside_Pin GPIO_PIN_8
+#define Charger_Control_Lowside_GPIO_Port GPIOE
+#define Charger_Control_Highside_Pin GPIO_PIN_9
+#define Charger_Control_Highside_GPIO_Port GPIOE
 #define Blade_Motor_Reset_Pin GPIO_PIN_14
 #define Blade_Motor_Reset_GPIO_Port GPIOE
 #define Driver_Motor_Enable_Pin GPIO_PIN_15

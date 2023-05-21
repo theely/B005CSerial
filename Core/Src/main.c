@@ -32,6 +32,7 @@
 #include "drivemotor.h" 
 #include "blademotor.h" 
 #include "emergency.h" 
+#include "charger.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -110,6 +111,7 @@ int main(void)
   MX_TIM2_Init();
   MX_RTC_Init();
   MX_USART6_UART_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   logSerial("System Boot Completed!\n");
   logSerial("Services Initializations started...\n");
@@ -130,6 +132,16 @@ int main(void)
     /* Initialize Blade Motors ESC */
   BLADEMOTOR_Init();
   logSerial("Blade Motor: Ready\n");
+
+  /* Initilize Charge Controler*/
+  TIM1->CCR1 = 0;  
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1);
+  logSerial("Charge Controler PWM Timers initialized!\n");
+
+  /* Initializing Charger*/
+  CHARGER_Init();
+
 
   logSerial("Services Initializations completed!\n");
 
@@ -155,6 +167,7 @@ int main(void)
     BLADEMOTOR_Run();
     ADC_Update();
     EMERGENCY_Update();
+    CHARGER_Update();
 
     /*if (EMERGENCY_State())
 		{
