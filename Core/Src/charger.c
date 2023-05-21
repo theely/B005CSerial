@@ -4,6 +4,9 @@
 #include "tim.h"
 #include "rtc.h"
 #include "charger.h"
+#include "string.h"
+#include <stdint.h>
+#include <stdio.h>
 /******************************************************************************
  * Module Preprocessor Constants
  *******************************************************************************/
@@ -17,6 +20,7 @@
  *******************************************************************************/
 
 typedef enum{
+    CHARGER_STATE_OFF,
     CHARGER_STATE_IDLE,
     CHARGER_STATE_CONNECTED,
     CHARGER_STATE_CHARGING_CC,
@@ -32,6 +36,8 @@ typedef enum{
 float SOC                           = 0;
 uint16_t chargecontrol_pwm_val      = 0;
 uint8_t  chargecontrol_is_charging  = 0;
+CHARGER_STATE_e charger_state = CHARGER_STATE_OFF;
+
 
 /******************************************************************************
  * Function Prototypes
@@ -48,12 +54,27 @@ void CHARGER_Init(void){
   HAL_TIMEx_PWMN_Start(&htim1, TIM_CHANNEL_1);
 }
 
-
+void CHARGER_Set(uint8_t on_off){
+    if(on_off){
+        charger_state == CHARGER_STATE_IDLE;
+        chargecontrol_pwm_val = 0;
+    }else{
+        charger_state == CHARGER_STATE_OFF;
+        chargecontrol_pwm_val = 0;
+        HAL_GPIO_WritePin(High_Voltage_Enable_GPIO_Port, High_Voltage_Enable_Pin, 0);
+    }
+}
 
 void CHARGER_Update(void)
 {                        
-  static CHARGER_STATE_e charger_state = CHARGER_STATE_IDLE;
-  static uint32_t timestamp = 0;
+
+   static uint32_t timestamp = 0;
+   static char buffer[50];
+
+   //if state is off do nothing
+   if(charger_state == CHARGER_STATE_OFF){
+      return;
+   }
 
   /*charger disconnected force idle state*/
   if(( chargerInputVoltage < MIN_DOCKED_VOLTAGE) ){
@@ -86,10 +107,14 @@ void CHARGER_Update(void)
         if ((battery_voltage > BAT_CHARGE_CUTOFF_VOLTAGE && (chargecontrol_pwm_val > 0)) || ((current > MAX_CHARGE_CURRENT) && (chargecontrol_pwm_val > 50)))
         {
             chargecontrol_pwm_val--;
+            sprintf(buffer, "Adjusting charger PWM:%d\n",chargecontrol_pwm_val);
+            logSerial((uint8_t *)buffer);
         }
         if ((battery_voltage < BAT_CHARGE_CUTOFF_VOLTAGE) && (current < MAX_CHARGE_CURRENT) && (chargecontrol_pwm_val < 1350))
         {
             chargecontrol_pwm_val++;
+            sprintf(buffer, "Adjusting charger PWM:%d\n",chargecontrol_pwm_val);
+            logSerial((uint8_t *)buffer);
         }
 
         if(charge_voltage >= (LIMIT_VOLTAGE_150MA )){
@@ -103,16 +128,22 @@ void CHARGER_Update(void)
         if ((battery_voltage < BAT_CHARGE_CUTOFF_VOLTAGE) && (charge_voltage < (MAX_CHARGE_VOLTAGE)) && (chargecontrol_pwm_val < 1350))
         {
           chargecontrol_pwm_val++;
+          sprintf(buffer, "Adjusting charger PWM:%d\n",chargecontrol_pwm_val);
+          logSerial((uint8_t *)buffer);
         }            
         if ((battery_voltage > BAT_CHARGE_CUTOFF_VOLTAGE && (chargecontrol_pwm_val > 0)) || (charge_voltage > (MAX_CHARGE_VOLTAGE) && (chargecontrol_pwm_val > 50)))
         {
           chargecontrol_pwm_val--;
+          sprintf(buffer, "Adjusting charger PWM:%d\n",chargecontrol_pwm_val);
+          logSerial((uint8_t *)buffer);
         }
 
         /* the current is limited to 150ma */
         if ((current > (MAX_CHARGE_CURRENT/10)) && chargecontrol_pwm_val > 0)
         {
             chargecontrol_pwm_val--;
+            sprintf(buffer, "Adjusting charger PWM:%d\n",chargecontrol_pwm_val);
+            logSerial((uint8_t *)buffer);
         }
 
         /* battery full ? */
@@ -128,6 +159,8 @@ void CHARGER_Update(void)
     case CHARGER_STATE_END_CHARGING:
 
         chargecontrol_pwm_val = 0;
+        sprintf(buffer, "Adjusting charger PWM:%d\n",chargecontrol_pwm_val);
+        logSerial((uint8_t *)buffer);
 
         break;
 
@@ -141,6 +174,8 @@ void CHARGER_Update(void)
             timestamp = HAL_GetTick();
         }
         chargecontrol_pwm_val = 0;
+        sprintf(buffer, "Adjusting charger PWM:%d\n",chargecontrol_pwm_val);
+        logSerial((uint8_t *)buffer);
         break;
     }
     

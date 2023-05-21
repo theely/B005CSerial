@@ -53,7 +53,7 @@ extern "C" {
 
 void CHARGER_Init(void);
 void CHARGER_Update(void);
-
+void CHARGER_Set(uint8_t on_off);
 
 
 #ifdef __cplusplus

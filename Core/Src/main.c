@@ -272,7 +272,7 @@ void parseSerialBuffer(uint8_t *buffer) {
 
 
 void parseSerialCommand(uint8_t *command) {
-
+    static char buffer[50];
     if (strncmp(command, "speed:", 6) == 0 && status==ARMED) {
         
         float left, right;
@@ -280,10 +280,8 @@ void parseSerialCommand(uint8_t *command) {
         int numMatches = sscanf(command+6, "%f %f", &left, &right);
         if (numMatches == 2) {
             DRIVEMOTOR_SetSpeed(left, right);
-            char buffer[50];
             sprintf(buffer, "Set speed left to:%.2f and right to:%.2f.\n",left,right);
             logSerial((uint8_t *)buffer);
-            DRIVEMOTOR_SetSpeed(left, right);
         } else {
             logSerial("Invalid speed command format: '"); logSerial(command); logSerial("'\n");
         }
@@ -293,6 +291,16 @@ void parseSerialCommand(uint8_t *command) {
  
     } else if (strncmp(command, "arm", 4) == 0) {
         status=ARMED;
+    } else if (strncmp(command, "charger:", 8) == 0) {
+        uint8_t charger_on_off;
+        int numMatches = sscanf(command+8, "%d", &charger_on_off);
+        if (numMatches == 1) {
+            CHARGER_Set(charger_on_off);
+            sprintf(buffer, "Set charger:%d\n",charger_on_off);
+            logSerial((uint8_t *)buffer);
+        } else {
+            logSerial("Invalid speed command format: '"); logSerial(command); logSerial("'\n");
+        }
     } else if (strncmp(command, "halt", 4) == 0) {
           
         DRIVEMOTOR_SetSpeed(0, 0);
@@ -325,10 +333,11 @@ void logStatus() {
           'emergency':%d,\
           'rain':%d,\
           'home':%d,\
-          'vbat': %.2f, \
-          'current': %.2f,\
           'blade Temp': %.2f\
-           }\n",status,0,0.0,0.0,EMERGENCY_State(),RAIN_Sense(),BUTTON_Home(),battery_voltage,current, blade_temperature);
+          'v_bat': %.2f, \
+          'v_charger': %.2f\
+          'a_charger': %.2f,\
+           }\n",status,0,0.0,0.0,EMERGENCY_State(),RAIN_Sense(),BUTTON_Home(),blade_temperature,battery_voltage,chargerInputVoltage,current);
   logSerial((uint8_t *)status_buffer);
 
 }
