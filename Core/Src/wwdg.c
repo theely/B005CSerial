@@ -76,5 +76,14 @@ void HAL_WWDG_MspInit(WWDG_HandleTypeDef* wwdgHandle)
 /* USER CODE BEGIN 1 */
 void HAL_WWDG_EarlyWakeupCallback(WWDG_HandleTypeDef *hwwdg){
   logSerial("Watch Dog Triggered!");
+
+  /* clean up offset value that might cause issues*/
+  RTC_HandleTypeDef RtcHandle;
+  RtcHandle.Instance = RTC;
+  HAL_PWR_EnableBkUpAccess();
+  HAL_RTCEx_BKUPWrite(&RtcHandle, RTC_BKP_DR1, 0);
+  HAL_RTCEx_BKUPWrite(&RtcHandle, RTC_BKP_DR2, 0);
+  HAL_PWR_DisableBkUpAccess(); 
+
 }
 /* USER CODE END 1 */

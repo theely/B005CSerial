@@ -105,12 +105,16 @@ void MX_ADC1_Init(void)
   if(HAL_ADC_Start_IT(&hadc1) != HAL_OK){
         Error_Handler();
   }
-                
-    ampere_acc.u[0] = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR1);
-    ampere_acc.u[1] = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR2);
 
-    charge_current_offset.u[0] = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR3);
-    charge_current_offset.u[1] = HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR4);
+
+    RTC_HandleTypeDef RtcHandle;
+    RtcHandle.Instance = RTC;
+                
+    ampere_acc.u[0] = HAL_RTCEx_BKUPRead(&RtcHandle, RTC_BKP_DR1);
+    ampere_acc.u[1] = HAL_RTCEx_BKUPRead(&RtcHandle, RTC_BKP_DR2);
+
+    charge_current_offset.u[0] = HAL_RTCEx_BKUPRead(&RtcHandle, RTC_BKP_DR3);
+    charge_current_offset.u[1] = HAL_RTCEx_BKUPRead(&RtcHandle, RTC_BKP_DR4);
   /* USER CODE END ADC1_Init 2 */
 
 }

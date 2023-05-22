@@ -35,7 +35,6 @@ typedef enum{
 
 float SOC                           = 0;
 uint16_t chargecontrol_pwm_val      = 0;
-uint8_t  chargecontrol_is_charging  = 0;
 CHARGER_STATE_e charger_state = CHARGER_STATE_OFF;
 
 
@@ -56,12 +55,14 @@ void CHARGER_Init(void){
 
 void CHARGER_Set(uint8_t on_off){
     if(on_off){
-        charger_state == CHARGER_STATE_IDLE;
+        charger_state = CHARGER_STATE_IDLE;
         chargecontrol_pwm_val = 0;
+        logSerial("Charger enabled!\n");
     }else{
-        charger_state == CHARGER_STATE_OFF;
+        charger_state = CHARGER_STATE_OFF;
         chargecontrol_pwm_val = 0;
         HAL_GPIO_WritePin(High_Voltage_Enable_GPIO_Port, High_Voltage_Enable_Pin, 0);
+        logSerial("Charger disabled!\n");
     }
 }
 
@@ -84,6 +85,7 @@ void CHARGER_Update(void)
     switch (charger_state)
     {
     case CHARGER_STATE_CONNECTED:
+
         
         /* when connected the 3.3v and 5v is provided by the charger so we get the real biais of the current measure */
         chargecontrol_pwm_val = 0;
@@ -92,9 +94,11 @@ void CHARGER_Update(void)
         if( (HAL_GetTick() - timestamp) > 100){
           charge_current_offset.f = current_without_offset;
           // Writes a data in a RTC Backup data Register 3&4
+          RTC_HandleTypeDef RtcHandle;
+          RtcHandle.Instance = RTC;
           HAL_PWR_EnableBkUpAccess();
-          HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR3, charge_current_offset.u[0]);    
-          HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR4, charge_current_offset.u[1]);   
+          HAL_RTCEx_BKUPWrite(&RtcHandle, RTC_BKP_DR3, charge_current_offset.u[0]);    
+          HAL_RTCEx_BKUPWrite(&RtcHandle, RTC_BKP_DR4, charge_current_offset.u[1]);   
           HAL_PWR_DisableBkUpAccess(); 
           HAL_GPIO_WritePin(High_Voltage_Enable_GPIO_Port, High_Voltage_Enable_Pin, 1); /* Power on the battery  Powerbus */
           charger_state = CHARGER_STATE_CHARGING_CC;
@@ -103,18 +107,17 @@ void CHARGER_Update(void)
         break;
 
     case CHARGER_STATE_CHARGING_CC:
+
+        
+
         // cap charge current at 1.5 Amps
         if ((battery_voltage > BAT_CHARGE_CUTOFF_VOLTAGE && (chargecontrol_pwm_val > 0)) || ((current > MAX_CHARGE_CURRENT) && (chargecontrol_pwm_val > 50)))
         {
             chargecontrol_pwm_val--;
-            sprintf(buffer, "Adjusting charger PWM:%d\n",chargecontrol_pwm_val);
-            logSerial((uint8_t *)buffer);
         }
         if ((battery_voltage < BAT_CHARGE_CUTOFF_VOLTAGE) && (current < MAX_CHARGE_CURRENT) && (chargecontrol_pwm_val < 1350))
         {
             chargecontrol_pwm_val++;
-            sprintf(buffer, "Adjusting charger PWM:%d\n",chargecontrol_pwm_val);
-            logSerial((uint8_t *)buffer);
         }
 
         if(charge_voltage >= (LIMIT_VOLTAGE_150MA )){
@@ -124,26 +127,23 @@ void CHARGER_Update(void)
         break;
 
     case CHARGER_STATE_CHARGING_CV:
+        
+
+
         // set PWM to approach 29.4V  charge voltage
         if ((battery_voltage < BAT_CHARGE_CUTOFF_VOLTAGE) && (charge_voltage < (MAX_CHARGE_VOLTAGE)) && (chargecontrol_pwm_val < 1350))
         {
           chargecontrol_pwm_val++;
-          sprintf(buffer, "Adjusting charger PWM:%d\n",chargecontrol_pwm_val);
-          logSerial((uint8_t *)buffer);
         }            
         if ((battery_voltage > BAT_CHARGE_CUTOFF_VOLTAGE && (chargecontrol_pwm_val > 0)) || (charge_voltage > (MAX_CHARGE_VOLTAGE) && (chargecontrol_pwm_val > 50)))
         {
           chargecontrol_pwm_val--;
-          sprintf(buffer, "Adjusting charger PWM:%d\n",chargecontrol_pwm_val);
-          logSerial((uint8_t *)buffer);
         }
 
         /* the current is limited to 150ma */
         if ((current > (MAX_CHARGE_CURRENT/10)) && chargecontrol_pwm_val > 0)
         {
             chargecontrol_pwm_val--;
-            sprintf(buffer, "Adjusting charger PWM:%d\n",chargecontrol_pwm_val);
-            logSerial((uint8_t *)buffer);
         }
 
         /* battery full ? */
@@ -158,24 +158,21 @@ void CHARGER_Update(void)
 
     case CHARGER_STATE_END_CHARGING:
 
+        
         chargecontrol_pwm_val = 0;
-        sprintf(buffer, "Adjusting charger PWM:%d\n",chargecontrol_pwm_val);
-        logSerial((uint8_t *)buffer);
+
 
         break;
 
 
     case CHARGER_STATE_IDLE:
     default:
-       
         if (chargerInputVoltage >= 30.0 ) {
             charger_state = CHARGER_STATE_CONNECTED;
             HAL_GPIO_WritePin(High_Voltage_Enable_GPIO_Port, High_Voltage_Enable_Pin, 0); /* Power off the battery  Powerbus */
             timestamp = HAL_GetTick();
         }
         chargecontrol_pwm_val = 0;
-        sprintf(buffer, "Adjusting charger PWM:%d\n",chargecontrol_pwm_val);
-        logSerial((uint8_t *)buffer);
         break;
     }
     
@@ -183,13 +180,15 @@ void CHARGER_Update(void)
     if(ampere_acc.f >= 2.8)ampere_acc.f = 2.8;
     SOC = ampere_acc.f/2.8;
 
+
     // Writes a data in a RTC Backup data Register 1
     HAL_PWR_EnableBkUpAccess();
-    HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR1, ampere_acc.u[0]);    
-    HAL_RTCEx_BKUPWrite(&hrtc, RTC_BKP_DR2, ampere_acc.u[1]);   
+    
+    RTC_HandleTypeDef RtcHandle;
+    RtcHandle.Instance = RTC;
+    HAL_RTCEx_BKUPWrite(&RtcHandle, RTC_BKP_DR1, ampere_acc.u[0]);
+    HAL_RTCEx_BKUPWrite(&RtcHandle, RTC_BKP_DR2, ampere_acc.u[1]); 
     HAL_PWR_DisableBkUpAccess(); 
-
-    chargecontrol_is_charging = charger_state;
 
     /*Check the PWM value for safety */
     if (chargecontrol_pwm_val > 1350){

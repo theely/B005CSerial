@@ -145,6 +145,8 @@ int main(void)
   CHARGER_Init();
 
 
+
+
   logSerial("Services Initializations completed!\n");
 
 
@@ -169,6 +171,7 @@ int main(void)
     BLADEMOTOR_Run();
     ADC_Update();
     EMERGENCY_Update();
+    HAL_WWDG_Refresh(&hwwdg);
     CHARGER_Update();
 
     /*if (EMERGENCY_State())
@@ -289,7 +292,7 @@ void parseSerialCommand(uint8_t *command) {
   
         BLADEMOTOR_Set(1);
  
-    } else if (strncmp(command, "arm", 4) == 0) {
+    } else if (strncmp(command, "arm", 3) == 0) {
         status=ARMED;
     } else if (strncmp(command, "charger:", 8) == 0) {
         uint8_t charger_on_off;
