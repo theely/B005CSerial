@@ -21,8 +21,7 @@ Beside some log information mainly at boot time the B005CSerial sends a periodic
 ```javascript
 {  
   'status':0,
-  'blade':0,
-  'speed':{'left':0.00,'right':0.00},
+  'blade_state':0,
   'emergency':0,
   'rain':0,
   'home':0,
