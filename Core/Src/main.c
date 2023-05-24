@@ -289,9 +289,15 @@ void parseSerialCommand(uint8_t *command) {
             logSerial("Invalid speed command format: '"); logSerial(command); logSerial("'\n");
         }
     } else if (strncmp(command, "cut", 3) == 0 && status==ARMED) {
-  
-        BLADEMOTOR_Set(1);
- 
+        uint8_t charger_on_off;
+        int numMatches = sscanf(command+8, "%d", &charger_on_off);
+        if (numMatches == 1) {
+            BLADEMOTOR_Set(charger_on_off);
+            sprintf(buffer, "Set charger:%d\n",charger_on_off);
+            logSerial((uint8_t *)buffer);
+        } else {
+            logSerial("Invalid speed command format: '"); logSerial(command); logSerial("'\n");
+        }
     } else if (strncmp(command, "arm", 3) == 0) {
         status=ARMED;
     } else if (strncmp(command, "charger:", 8) == 0) {
