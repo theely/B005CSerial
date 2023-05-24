@@ -22,11 +22,14 @@ Beside some log information mainly at boot time the B005CSerial sends a periodic
 ```
 
 ## Commands
-arm
-speed:left_speed,right_speed
-cut:on_off
-charger:on_off
-halt
+
+| Command  | Parameter Type  | Description| Example   |
+|---|---|---|---|
+| arm  |    | Needs to be issued to activate the mower  |  arm |
+| speed:left_speed right_speed  | float (-0.5 to 0.5)   | Controls the speed of the left and right wheel  |  speed:0.3 0.3 |
+| cut:on_off  |  boolean  | Controls the cutting blade  |  cut:1 |
+| charger:on_off  |  boolean  | Controls the charger  |  charger:1 |
+| halt  |    | Emergency Stop  |  halt |
 
 # PIN MAPPING
 
