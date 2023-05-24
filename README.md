@@ -1,3 +1,32 @@
+# Serial Protocol
+To control the mower a text based USB Serial protocol is used.
+Simply connect to the mower with a USB data cable and onpen a USB serial connection with a baud rate of 9600. 
+
+## Status Output
+Beside some log information mainly at boot time the B005CSerial sends a periodic status update. The status update is a JSON formatted message:
+```javascript
+{  
+  'status':0,
+  'blade':0,
+  'speed':{'left':0.00,'right':0.00},
+  'emergency':0,
+  'rain':0,
+  'home':0,
+  'play':0,
+  'blade Temp': 21.20,
+  'v_bat': 26.18,
+  'v_charger': 30.98,
+  'a_charger': 1.02,
+  'charger state:' 0,
+ }
+```
+
+## Commands
+arm
+speed:left_speed,right_speed
+cut:on_off
+charger:on_off
+halt
 
 # PIN MAPPING
 
