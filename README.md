@@ -7,10 +7,10 @@
 | A8 (TODO: not working - check C15 to C13)  |  Mechanical tilt  | GPIO  |  (HIGH when set) GPIO_MODE_INPUT GPIO_PULLDOWN |
 | D14 (TODO:not working)  | Buzzer   | PWM  | TIM4_CH3  |
 | B1  (TODO:not working)  | Beeper   | PWM  | TIM43_CH4  |
-| B8  (TODO)| Perimeter Sense Control  | GPIO  |  GPIO_MODE_OUTPUT_PP |
-| B9  (TODO)| Perimeter Sense Control  | GPIO  | GPIO_MODE_OUTPUT_PP  |
-| A10 (TODO) | Panle UART Port J16  |  UART1 RX (DMA) |   |
-| A9  (TODO)| Panle UART Port J16  | UART1 TX (DMA)  |   |
+| B8  (TODO: test)| Perimeter Sense Control  | GPIO  |  GPIO_MODE_OUTPUT_PP |
+| B9  (TODO: test)| Perimeter Sense Control  | GPIO  | GPIO_MODE_OUTPUT_PP  |
+| A10 (TODO: test) | Panle UART Port J16  |  UART1 RX (DMA) |   |
+| A9  (TODO: test)| Panle UART Port J16  | UART1 TX (DMA)  |   |
 | C1  | Play button  | GPIO  |  (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP |
 |  E8 | Charge Control Pins  |  TIM1_CH1N | HighSide/LowSide MosFET   |
 |  E9 | Charge Control Pins  | TIM1_CH1   | HighSide/LowSide MosFET  |
