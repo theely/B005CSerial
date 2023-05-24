@@ -5,8 +5,11 @@
 ## ToDo
 
 - Implement perimeter wire sensing
-- Extend status message to send perimeter wire data
+- Extend status message to include perimeter wire data
 - Test perimeter wire
+- Implement panel UART and data transfer
+- Extend status message to include top pannel data
+- Test pannel integration
 
 
 # Serial Protocol
