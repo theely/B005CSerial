@@ -67,8 +67,6 @@ int BUTTON_Play(void);
 #define Rain_Sensor_GPIO_Port GPIOE
 #define Stop_Button_Yellow_Pin GPIO_PIN_0
 #define Stop_Button_Yellow_GPIO_Port GPIOC
-#define Play_Button_Pin GPIO_PIN_1
-#define Play_Button_GPIO_Port GPIOC
 #define Blade_NTC_Pin GPIO_PIN_2
 #define Blade_NTC_GPIO_Port GPIOC
 #define Charge_Current_Pin GPIO_PIN_1

@@ -334,7 +334,8 @@ int BUTTON_Home(void)
 
 int BUTTON_Play(void)
 {
-  return (!HAL_GPIO_ReadPin(Play_Button_GPIO_Port, Play_Button_Pin)); // pullup, active low
+  //return (!HAL_GPIO_ReadPin(Play_Button_GPIO_Port, Play_Button_Pin)); // pullup, active low
+  return 0;
 }
 
 void logStatus() {
