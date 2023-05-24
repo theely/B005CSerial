@@ -21,7 +21,7 @@
 #include "wwdg.h"
 
 /* USER CODE BEGIN 0 */
-
+//#define ENABLE_WATCHDOG 
 /* USER CODE END 0 */
 
 WWDG_HandleTypeDef hwwdg;
@@ -35,7 +35,7 @@ void MX_WWDG_Init(void)
   /* USER CODE END WWDG_Init 0 */
 
   /* USER CODE BEGIN WWDG_Init 1 */
-
+  #ifdef ENABLE_WATCHDOG
   /* USER CODE END WWDG_Init 1 */
   hwwdg.Instance = WWDG;
   hwwdg.Init.Prescaler = WWDG_PRESCALER_8;
@@ -47,7 +47,7 @@ void MX_WWDG_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN WWDG_Init 2 */
-
+  #endif
   /* USER CODE END WWDG_Init 2 */
 
 }
