@@ -342,18 +342,18 @@ void logStatus() {
 
   static char status_buffer[250];
   sprintf(status_buffer, "{\
-          'status':%d,\
-          'blade_state':%d,\
+          'state':%d,\
           'emergency':%d,\
+          'blade_state':%d,\
+          'blade_temp': %.2f\
           'rain':%d,\
           'home':%d,\
           'play':%d,\
-          'blade Temp': %.2f\
-          'v_bat': %.2f, \
-          'v_charger': %.2f\
-          'a_charger': %.2f,\
-          'charger state:' %d,\
-           }\n",status,blademotor_eState,EMERGENCY_State(),RAIN_Sense(),BUTTON_Home(),BUTTON_Play(),blade_temperature,battery_voltage,chargerInputVoltage,current,charger_state);
+          'battery_v': %.2f, \
+          'charger_state:' %d,\
+          'charger_v': %.2f\
+          'charger_a': %.2f,\
+           }\n",status,EMERGENCY_State(),blademotor_eState,blade_temperature,RAIN_Sense(),BUTTON_Home(),BUTTON_Play(),battery_voltage,charger_state,chargerInputVoltage,current);
   logSerial((uint8_t *)status_buffer);
 
 }
