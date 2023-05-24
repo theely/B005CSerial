@@ -1,3 +1,14 @@
+# Project Stauts
+
+*Functional* - Most of the mower functionalies are implemented and have been tests.
+
+## ToDo
+
+- Implement perimeter wire sensing
+- Extend status message to send perimeter wire data
+- Test perimeter wire
+
+
 # Serial Protocol
 To control the mower a text based USB Serial protocol is used.
 Simply connect to the mower with a USB data cable and open a USB serial connection with a baud rate of 9600. 
