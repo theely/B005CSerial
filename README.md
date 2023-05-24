@@ -20,18 +20,17 @@ Simply connect to the mower with a USB data cable and open a USB serial connecti
 Beside some log information mainly at boot time the B005CSerial sends a periodic status update. The status update is a JSON formatted message:
 ```javascript
 {  
-  'status':0,
-  'blade':0,
-  'speed':{'left':0.00,'right':0.00},
+  'state':0,
   'emergency':0,
+  'blade_state':0,
+  'blade_temp': 21.20,
   'rain':0,
   'home':0,
   'play':0,
-  'blade Temp': 21.20,
-  'v_bat': 26.18,
-  'v_charger': 30.98,
-  'a_charger': 1.02,
-  'charger state:' 0,
+  'battery_v': 26.18,
+  'charger_state:' 0,
+  'charger_v': 30.98,
+  'charger_a': 1.02,
  }
 ```
 
