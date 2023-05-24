@@ -332,6 +332,11 @@ int BUTTON_Home(void)
   return (!HAL_GPIO_ReadPin(Home_Button_GPIO_Port, Home_Button_Pin)); // pullup, active low
 }
 
+int BUTTON_Play(void)
+{
+  return (!HAL_GPIO_ReadPin(Play_Button_GPIO_Port, Play_Button_Pin)); // pullup, active low
+}
+
 void logStatus() {
 
   static char status_buffer[250];
@@ -342,6 +347,7 @@ void logStatus() {
           'emergency':%d,\
           'rain':%d,\
           'home':%d,\
+          'play':%d,\
           'blade Temp': %.2f\
           'v_bat': %.2f, \
           'v_charger': %.2f\
@@ -349,7 +355,7 @@ void logStatus() {
           'charger state:' %d,\
           'current_offset:' %f,\
           'charger_pwm:' %d,\
-           }\n",status,0,0.0,0.0,EMERGENCY_State(),RAIN_Sense(),BUTTON_Home(),blade_temperature,battery_voltage,chargerInputVoltage,current,charger_state,charge_current_offset.f,chargecontrol_pwm_val);
+           }\n",status,0,0.0,0.0,EMERGENCY_State(),RAIN_Sense(),BUTTON_Home(),BUTTON_Play(),blade_temperature,battery_voltage,chargerInputVoltage,current,charger_state,charge_current_offset.f,chargecontrol_pwm_val);
   logSerial((uint8_t *)status_buffer);
 
 }
