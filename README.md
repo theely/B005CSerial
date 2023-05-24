@@ -1,19 +1,51 @@
+# Serial Protocol
+To control the mower a text based USB Serial protocol is used.
+Simply connect to the mower with a USB data cable and onpen a USB serial connection with a baud rate of 9600. 
+
+## Status Output
+Beside some log information mainly at boot time the B005CSerial sends a periodic status update. The status update is a JSON formatted message:
+```javascript
+{  
+  'status':0,
+  'blade':0,
+  'speed':{'left':0.00,'right':0.00},
+  'emergency':0,
+  'rain':0,
+  'home':0,
+  'play':0,
+  'blade Temp': 21.20,
+  'v_bat': 26.18,
+  'v_charger': 30.98,
+  'a_charger': 1.02,
+  'charger state:' 0,
+ }
+```
+
+## Commands
+
+| Command  | Parameter Type  | Description| Example   |
+|---|---|---|---|
+| arm  |    | Needs to be issued to activate the mower  |  arm |
+| speed:left_speed right_speed  | float (-0.5 to 0.5)   | Controls the speed of the left and right wheel  |  speed:0.3 0.3 |
+| cut:on_off  |  boolean  | Controls the cutting blade  |  cut:1 |
+| charger:on_off  |  boolean  | Controls the charger  |  charger:1 |
+| halt  |    | Emergency Stop  |  halt |
 
 # PIN MAPPING
 
 
 | PIN  | Peripheral  | Type | Config   |
 |---|---|---|---|
-|  E8 (TODO)| Charge Control Pins  |  TIM1_CH1N | HighSide/LowSide MosFET   |
-|  E9 (TODO)| Charge Control Pins  | TIM1_CH1   | HighSide/LowSide MosFET  |
 | A8 (TODO: not working - check C15 to C13)  |  Mechanical tilt  | GPIO  |  (HIGH when set) GPIO_MODE_INPUT GPIO_PULLDOWN |
-| C7 (TODO: CONFLICT UART6)   | Play button  | GPIO  |  (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP |
-| B8  (TODO)| Perimeter Sense Control  | GPIO  |  GPIO_MODE_OUTPUT_PP |
-| B9  (TODO)| Perimeter Sense Control  | GPIO  | GPIO_MODE_OUTPUT_PP  |
-| A10 (TODO) | Panle UART Port J16  |  UART1 RX (DMA) |   |
-| A9  (TODO)| Panle UART Port J16  | UART1 TX (DMA)  |   |
 | D14 (TODO:not working)  | Buzzer   | PWM  | TIM4_CH3  |
 | B1  (TODO:not working)  | Beeper   | PWM  | TIM43_CH4  |
+| B8  (TODO: test)| Perimeter Sense Control  | GPIO  |  GPIO_MODE_OUTPUT_PP |
+| B9  (TODO: test)| Perimeter Sense Control  | GPIO  | GPIO_MODE_OUTPUT_PP  |
+| A10 (TODO: test) | Panle UART Port J16  |  UART1 RX (DMA) |   |
+| A9  (TODO: test)| Panle UART Port J16  | UART1 TX (DMA)  |   |
+| C1  | Play button  | GPIO  |  (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP |
+|  E8 | Charge Control Pins  |  TIM1_CH1N | HighSide/LowSide MosFET   |
+|  E9 | Charge Control Pins  | TIM1_CH1   | HighSide/LowSide MosFET  |
 | B13  | Home button  | GPIO  | (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP  |
 |  E2 |   Rain Sensor | GPIO  | (LOW when active)  GPIO_MODE_INPUT GPIO_PULLUP  |
 |  C0 | Stop button  | GPIO  | yellow (HIGH when pressed) GPIO_MODE_INPUT GPIO_PULLDOWN  |
