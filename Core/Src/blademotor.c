@@ -20,17 +20,13 @@
 /******************************************************************************
 * Module Typedefs
 *******************************************************************************/
-typedef enum {
-    BLADEMOTOR_INIT_1,
-    BLADEMOTOR_INIT_2,
-    BLADEMOTOR_RUN
-}BLADEMOTOR_STATE_e;
+
 
 /******************************************************************************
 * Module Variable Definitions
 *******************************************************************************/
 
-static BLADEMOTOR_STATE_e blademotor_eState = BLADEMOTOR_INIT_1;
+BLADEMOTOR_STATE_e blademotor_eState = BLADEMOTOR_INIT_1;
 
 
 
@@ -68,11 +64,12 @@ void  BLADEMOTOR_Run(void){
     case BLADEMOTOR_INIT_1:
 
         HAL_UART_Transmit_DMA(&huart6, (uint8_t*)blademotor_pcu8InitMsg, BLADEMOTOR_LENGTH_INIT_MSG);
-        blademotor_eState = BLADEMOTOR_RUN;
+        blademotor_eState = BLADEMOTOR_RUN_IDLE;
         logSerial(" * Blade Motor Controller initialized\r\n");     
         break;
     
-    case BLADEMOTOR_RUN:
+    case BLADEMOTOR_RUN_IDLE:
+    case BLADEMOTOR_RUN_ARMED:
 
         HAL_UART_Transmit_DMA(&huart6, (uint8_t*)blademotor_pu8RqstMessage, BLADEMOTOR_LENGTH_RQST_MSG);    
         break;
@@ -115,9 +112,11 @@ void BLADEMOTOR_UART_RxCallback(void)
 
             if((blademotor_pu8ReceivedData[5] & 0x80) == 0x80){
                 //BLADEMOTOR_bActivated = true;
+                blademotor_eState = BLADEMOTOR_RUN_ARMED;
             }
             else{
                 //BLADEMOTOR_bActivated = false;
+                blademotor_eState = BLADEMOTOR_RUN_IDLE;
             }
             //BLADEMOTOR_u16RPM = blademotor_pu8ReceivedData[7] + (blademotor_pu8ReceivedData[8]<<8);
             //BLADEMOTOR_u16Power = blademotor_pu8ReceivedData[9] + (blademotor_pu8ReceivedData[10]<<8) ;           

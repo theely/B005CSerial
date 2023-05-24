@@ -10,6 +10,15 @@ extern "C" {
 
 #define BLADEMOTOR_LENGTH_RECEIVED_MSG 16
 
+typedef enum {
+    BLADEMOTOR_INIT_1=0,
+    BLADEMOTOR_INIT_2,
+    BLADEMOTOR_RUN_IDLE,
+    BLADEMOTOR_RUN_ARMED
+}BLADEMOTOR_STATE_e;
+
+extern  BLADEMOTOR_STATE_e blademotor_eState;
+
 void BLADEMOTOR_Init(void);
 void BLADEMOTOR_Run(void);
 void BLADEMOTOR_UART_RxCallback(void);

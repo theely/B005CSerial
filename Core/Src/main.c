@@ -343,8 +343,7 @@ void logStatus() {
   static char status_buffer[250];
   sprintf(status_buffer, "{\
           'status':%d,\
-          'blade':%d,\
-          'speed':{'left':%.2f,'right':%.2f},\
+          'blade_state':%d,\
           'emergency':%d,\
           'rain':%d,\
           'home':%d,\
@@ -354,9 +353,7 @@ void logStatus() {
           'v_charger': %.2f\
           'a_charger': %.2f,\
           'charger state:' %d,\
-          'current_offset:' %f,\
-          'charger_pwm:' %d,\
-           }\n",status,0,0.0,0.0,EMERGENCY_State(),RAIN_Sense(),BUTTON_Home(),BUTTON_Play(),blade_temperature,battery_voltage,chargerInputVoltage,current,charger_state,charge_current_offset.f,chargecontrol_pwm_val);
+           }\n",status,blademotor_eState,EMERGENCY_State(),RAIN_Sense(),BUTTON_Home(),BUTTON_Play(),blade_temperature,battery_voltage,chargerInputVoltage,current,charger_state);
   logSerial((uint8_t *)status_buffer);
 
 }
