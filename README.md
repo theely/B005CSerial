@@ -1,6 +1,20 @@
+# Project Stauts
+
+*Functional* - Most of the mower functionalies are implemented and have been tests.
+
+## ToDo
+
+- Implement perimeter wire sensing
+- Extend status message to include perimeter wire data
+- Test perimeter wire
+- Implement panel UART and data transfer
+- Extend status message to include top pannel data
+- Test pannel integration
+
+
 # Serial Protocol
 To control the mower a text based USB Serial protocol is used.
-Simply connect to the mower with a USB data cable and onpen a USB serial connection with a baud rate of 9600. 
+Simply connect to the mower with a USB data cable and open a USB serial connection with a baud rate of 9600. 
 
 ## Status Output
 Beside some log information mainly at boot time the B005CSerial sends a periodic status update. The status update is a JSON formatted message:
@@ -56,9 +70,9 @@ Beside some log information mainly at boot time the B005CSerial sends a periodic
 |  E15 | Drive Motors  | GPIO  | HC366 OE Pins (LOW to enable) GPIO_MODE_OUTPUT_PP GPIO_NOPULL GPIO_SPEED_HIGH  |
 | D0  | Wheel lift blue  | GPIO  | GPIO_MODE_INPUT GPIO_PULLDOWN  |
 | D1  | Wheel lift red  | GPIO  | GPIO_MODE_INPUT GPIO_PULLDOWN  |
-| D6  | Driver motros  |  UART2 RX (DMA)  |   |
-| D5  | Driver motros  |  UART2 TX (DMA)  |   |
-| C7  | Blade motoror  | UART6 RX (DMA)  |   |
+| D6  | Driver motors  |  UART2 RX (DMA)  |   |
+| D5  | Driver motors  |  UART2 TX (DMA)  |   |
+| C7  | Blade motors  | UART6 RX (DMA)  |   |
 | C6   | Blade motor  |  UART6 TX (DMA) |   |
 | A12  | USB Serial  | USB_DP  |   |
 |  A11 | USB Serial  | USB_DM  |   |
