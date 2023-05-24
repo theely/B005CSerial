@@ -45,7 +45,7 @@ float ntc_voltage;
 float blade_temperature;
 float chargerInputVoltage;
 
-union FtoU ampere_acc;
+//union FtoU ampere_acc; used for SOC that needs refactoring
 union FtoU charge_current_offset;
 
 
@@ -110,8 +110,8 @@ void MX_ADC1_Init(void)
     RTC_HandleTypeDef RtcHandle;
     RtcHandle.Instance = RTC;
                 
-    ampere_acc.u[0] = HAL_RTCEx_BKUPRead(&RtcHandle, RTC_BKP_DR1);
-    ampere_acc.u[1] = HAL_RTCEx_BKUPRead(&RtcHandle, RTC_BKP_DR2);
+    //ampere_acc.u[0] = HAL_RTCEx_BKUPRead(&RtcHandle, RTC_BKP_DR1);
+    //ampere_acc.u[1] = HAL_RTCEx_BKUPRead(&RtcHandle, RTC_BKP_DR2);
 
     charge_current_offset.u[0] = HAL_RTCEx_BKUPRead(&RtcHandle, RTC_BKP_DR3);
     charge_current_offset.u[1] = HAL_RTCEx_BKUPRead(&RtcHandle, RTC_BKP_DR4);

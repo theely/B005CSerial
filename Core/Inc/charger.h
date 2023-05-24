@@ -27,6 +27,11 @@ extern "C" {
 #define MAX_CHARGE_VOLTAGE 29.0f
 /// Max battery voltage allowed
 #define BAT_CHARGE_CUTOFF_VOLTAGE 28.0f
+
+//About 60%-70% od SOC
+#define BAT_CHARGE_STORAGE_VOLTAGE 26.0f
+
+
 /// We consider the battery is full when in CV mode the current below 0.1A
 #define CHARGE_END_LIMIT_CURRENT 0.08f
 // if voltage is greater than this assume we are docked
@@ -42,10 +47,20 @@ extern "C" {
 * Typedefs
 *******************************************************************************/
 
-
+typedef enum{
+    CHARGER_STATE_OFF=0,
+    CHARGER_STATE_IDLE,
+    CHARGER_STATE_CONNECTED,
+    CHARGER_STATE_CHARGING_CC,
+    CHARGER_STATE_CHARGING_CV,
+    CHARGER_STATE_END_CHARGING,
+} CHARGER_STATE_e;
 /******************************************************************************
 * Variables
 *******************************************************************************/
+//extern float SOC; needs refactoring
+extern uint16_t chargecontrol_pwm_val;
+extern CHARGER_STATE_e charger_state;
 
 /******************************************************************************
 * PUBLIC Function Prototypes

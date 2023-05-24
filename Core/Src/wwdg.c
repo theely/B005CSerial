@@ -83,6 +83,8 @@ void HAL_WWDG_EarlyWakeupCallback(WWDG_HandleTypeDef *hwwdg){
   HAL_PWR_EnableBkUpAccess();
   HAL_RTCEx_BKUPWrite(&RtcHandle, RTC_BKP_DR1, 0);
   HAL_RTCEx_BKUPWrite(&RtcHandle, RTC_BKP_DR2, 0);
+  HAL_RTCEx_BKUPWrite(&RtcHandle, RTC_BKP_DR3, 0);
+  HAL_RTCEx_BKUPWrite(&RtcHandle, RTC_BKP_DR4, 0);
   HAL_PWR_DisableBkUpAccess(); 
 
 }

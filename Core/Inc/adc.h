@@ -58,7 +58,7 @@ extern float current_without_offset;
 extern float blade_temperature;
 extern float chargerInputVoltage;
 
-extern union FtoU ampere_acc;
+//extern union FtoU ampere_acc;  //used for SOC that needs refactoring
 extern union FtoU charge_current_offset;
 
 /* USER CODE END Private defines */

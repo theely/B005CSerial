@@ -328,7 +328,7 @@ int BUTTON_Home(void)
 
 void logStatus() {
 
-  static char status_buffer[200];
+  static char status_buffer[250];
   sprintf(status_buffer, "{\
           'status':%d,\
           'blade':%d,\
@@ -340,7 +340,10 @@ void logStatus() {
           'v_bat': %.2f, \
           'v_charger': %.2f\
           'a_charger': %.2f,\
-           }\n",status,0,0.0,0.0,EMERGENCY_State(),RAIN_Sense(),BUTTON_Home(),blade_temperature,battery_voltage,chargerInputVoltage,current);
+          'charger state:' %d,\
+          'current_offset:' %f,\
+          'charger_pwm:' %d,\
+           }\n",status,0,0.0,0.0,EMERGENCY_State(),RAIN_Sense(),BUTTON_Home(),blade_temperature,battery_voltage,chargerInputVoltage,current,charger_state,charge_current_offset.f,chargecontrol_pwm_val);
   logSerial((uint8_t *)status_buffer);
 
 }
