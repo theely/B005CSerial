@@ -55,13 +55,13 @@ uint8_t usb_serial_command[64];
 
 /* USER CODE BEGIN PV */
 typedef enum {
-    WAITING=0,
-    ARMED,
-    DISARMED,
+    DISARMED=0,
+    ARMED
 }STATE_e;
 
 
-STATE_e status = WAITING;
+STATE_e status = DISARMED;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -114,6 +114,7 @@ int main(void)
   MX_USART6_UART_Init();
   MX_TIM1_Init();
   MX_WWDG_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
   logSerial("System Boot Completed!\n");
   logSerial("Services Initializations started...\n");
@@ -144,9 +145,15 @@ int main(void)
   /* Initializing Charger*/
   CHARGER_Init();
 
+  /* Initializing Buzzer*/
+  TIM3->CCR4 = 0;  
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
+  BUZZER_SET(1);
+  HAL_Delay (500);
+  BUZZER_SET(0);
+  logSerial("Buzzer initialized!\n");
 
-
-
+  EMERGENCY_Init();
   logSerial("Services Initializations completed!\n");
 
 
@@ -167,26 +174,30 @@ int main(void)
        memset (usb_serial_command, '\0', 64);  // clear buffer
     }
 
-    DRIVEMOTOR_Run();
-    BLADEMOTOR_Run();
+
     ADC_Update();
     EMERGENCY_Update();
-    HAL_WWDG_Refresh(&hwwdg);
     CHARGER_Update();
 
-    /*if (EMERGENCY_State())
+    if (EMERGENCY_State())
 		{
-			DRIVEMOTOR_SetSpeed(0, 0);
-			BLADEMOTOR_Set(0);
       status=DISARMED;
-		}*/
+		}
+
+    //Override motors command to hidle
+    if(status == DISARMED){
+      DRIVEMOTOR_SetSpeed(0, 0);
+			BLADEMOTOR_Set(0);
+    }
+    DRIVEMOTOR_Run();
+    BLADEMOTOR_Run();
 
     cycle++;
     if(cycle%10==0){  //100ms
       HAL_GPIO_TogglePin (Led_D3_GPIO_Port, Led_D3_Pin);
     }
     if(cycle%100==0){ //1s
-        logStatus();
+        STATE_Send();
     }
     if(cycle>1000){
       cycle=1;
@@ -311,12 +322,10 @@ void parseSerialCommand(uint8_t *command) {
             logSerial("Invalid speed command format: '"); logSerial(command); logSerial("'\n");
         }
     } else if (strncmp(command, "halt", 4) == 0) {
-          
-        DRIVEMOTOR_SetSpeed(0, 0);
-        BLADEMOTOR_Set(0);
         status=DISARMED;
         logSerial("Ack! Halting!");
-
+    } else if (strncmp(command, "ack", 3) == 0) {
+       EMERGENCY_SerialAck();
     } else {
         logSerial("Unknown command:"); logSerial(command); logSerial("\n");
     }
@@ -334,11 +343,21 @@ int BUTTON_Home(void)
 
 int BUTTON_Play(void)
 {
-  //return (!HAL_GPIO_ReadPin(Play_Button_GPIO_Port, Play_Button_Pin)); // pullup, active low
-  return 0;
+  return (!HAL_GPIO_ReadPin(Play_Button_GPIO_Port, Play_Button_Pin)); // pullup, active low
 }
 
-void logStatus() {
+
+void BUZZER_SET(uint8_t on_off){
+
+      if (on_off)
+      {
+        TIM3->CCR4 = 10; // chirp on
+      }else{
+        TIM3->CCR4 = 0; // chirp off
+      }
+    }
+
+void STATE_Send() {
 
   static char status_buffer[250];
   sprintf(status_buffer, "{\

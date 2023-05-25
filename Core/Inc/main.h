@@ -57,9 +57,11 @@ void Error_Handler(void);
 void logSerial(uint8_t *message);
 void parseSerialCommand(uint8_t *command);
 void logStatus(void);
+void STATE_Send(void);
 int RAIN_Sense(void);
 int BUTTON_Home(void);
 int BUTTON_Play(void);
+void BUZZER_SET(uint8_t on_off);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
@@ -81,6 +83,8 @@ int BUTTON_Play(void);
 #define Charger_Input_Voltage_GPIO_Port GPIOA
 #define High_Voltage_Enable_Pin GPIO_PIN_5
 #define High_Voltage_Enable_GPIO_Port GPIOC
+#define Buzzer_Pin GPIO_PIN_1
+#define Buzzer_GPIO_Port GPIOB
 #define Led_D3_Pin GPIO_PIN_2
 #define Led_D3_GPIO_Port GPIOB
 #define Charger_Control_Lowside_Pin GPIO_PIN_8
@@ -97,6 +101,8 @@ int BUTTON_Play(void);
 #define Driver_Motor_EnableD8_GPIO_Port GPIOD
 #define Stop_Button_White_Pin GPIO_PIN_8
 #define Stop_Button_White_GPIO_Port GPIOC
+#define Play_Button_Pin GPIO_PIN_9
+#define Play_Button_GPIO_Port GPIOC
 #define Mechanical_Tilt_Pin GPIO_PIN_8
 #define Mechanical_Tilt_GPIO_Port GPIOA
 #define Wheel_lift_blue_Pin GPIO_PIN_0

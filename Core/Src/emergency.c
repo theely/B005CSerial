@@ -7,21 +7,42 @@
 
 
 static uint8_t emergency_state = 0;
+
+//ACK Timeout        0b000001
+//STOP Button Yellow 0b000010
+//STOP Button White  0b000100
+//WHEEL Lift         0b001000
+//WHEEL Lift         0b010000
+//TILT               0b100000
+
+
+
+
 static uint32_t stop_emergency_started = 0;
 static uint32_t wheel_lift_emergency_started = 0;
 static uint32_t tilt_emergency_started = 0;
 static uint32_t accelerometer_int_emergency_started = 0;
 static uint32_t play_button_started = 0;
+static uint32_t ack_timestamp = 0;
 
 #define STOP_BUTTON_EMERGENCY_MILLIS 100
 #define WHEEL_LIFT_EMERGENCY_MILLIS 1000
 #define TILT_EMERGENCY_MILLIS 500
+
+void EMERGENCY_Init(void)
+{
+    ack_timestamp = HAL_GetTick();
+}
+
 
 uint8_t EMERGENCY_State(void)
 {
     return(emergency_state);
 }
 
+void EMERGENCY_SerialAck(void){
+    ack_timestamp = HAL_GetTick();
+}
 
 void  Emergency_SetState(uint8_t new_emergency_state)
 {
@@ -74,7 +95,13 @@ void EMERGENCY_Update(void)
     //TODO: uint8_t accelerometer_int_triggered = Emergency_LowZAccelerometer();
 
     uint32_t now = HAL_GetTick();
- 
+
+    /* TODO: Re-enable once we have a client implemented
+    if(((now - ack_timestamp) > ACK_TIMEOUT)){
+        emergency_state |= 0b000001;
+        logSerial(" ## EMERGENCY ## - Missed Serial ACK before timeout\r\n");
+    }
+    */
 
     if (stop_button_yellow || stop_button_white)
     {
@@ -126,10 +153,11 @@ void EMERGENCY_Update(void)
             }
         }
     }
+
     /*TODO: if (accelerometer_int_triggered)
     {
         if(accelerometer_int_emergency_started == 0)
-        {
+        {  
             accelerometer_int_emergency_started = now;
         }
         else

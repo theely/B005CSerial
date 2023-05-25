@@ -246,7 +246,6 @@ void DRIVEMOTOR_Receive(void){
 void DRIVEMOTOR_SetSpeed(float left_mps, float right_mps)
 {
     
-
 	// cap left motor speed to MAX_MPS
 	if (left_mps > MAX_MPS)
 	{
@@ -270,7 +269,6 @@ void DRIVEMOTOR_SetSpeed(float left_mps, float right_mps)
     right_speed_req = abs(right_mps * PWM_PER_MPS);
     left_dir_req    = (left_mps >= 0) ? 1 : 0;
     right_dir_req   = (right_mps >= 0) ? 1 : 0;
-    logSerial("Drive Motor Speed Set\r\n"); 
 }
 
 
