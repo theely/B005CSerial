@@ -49,13 +49,13 @@ Beside some log information mainly at boot time the B005CSerial sends a periodic
 
 | PIN  | Peripheral  | Type | Config   |
 |---|---|---|---|
-| C9 | Play button  | GPIO  |  (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP |
-| A8 (TODO: not working - check C15 to C13)  |  Mechanical tilt  | GPIO  |  (HIGH when set) GPIO_MODE_INPUT GPIO_PULLDOWN |
-| B1 (TODO:test)  | Buzzer   | PWM  | TIM4_CH3  |
+| A8 (TODO: not working)  |  Mechanical tilt  | GPIO  |  (HIGH when set) GPIO_MODE_INPUT GPIO_PULLDOWN |
 | B8  (TODO: test)| Perimeter Sense Control  | GPIO  |  GPIO_MODE_OUTPUT_PP |
 | B9  (TODO: test)| Perimeter Sense Control  | GPIO  | GPIO_MODE_OUTPUT_PP  |
 | A10 (TODO: test) | Panle UART Port J16  |  UART1 RX (DMA) |   |
 | A9  (TODO: test)| Panle UART Port J16  | UART1 TX (DMA)  |   |
+| B1 | Buzzer   | PWM  | TIM4_CH3  |
+| C9 | Play button  | GPIO  |  (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP |
 |  E8 | Charge Control Pins  |  TIM1_CH1N | HighSide/LowSide MosFET   |
 |  E9 | Charge Control Pins  | TIM1_CH1   | HighSide/LowSide MosFET  |
 | B13  | Home button  | GPIO  | (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP  |
