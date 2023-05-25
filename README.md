@@ -38,12 +38,12 @@ Beside some log information mainly at boot time the B005CSerial sends a periodic
 
 | Command  | Parameter Type  | Description| Example   |
 |---|---|---|---|
-| arm  |    | Needs to be issued to activate the mower  |  arm |
+| arm  |    | Needs to be issued to enable any motor |  arm |
 | speed:left_speed right_speed  | float (-0.5 to 0.5)   | Controls the speed of the left and right wheel  |  speed:0.3 0.3 |
 | cut:on_off  |  boolean  | Controls the cutting blade  |  cut:1 |
 | charger:on_off  |  boolean  | Controls the charger  |  charger:1 |
 | halt  |    | Emergency Stop  |  halt |
-
+| ack  |    | Needs to be sent every 500ms to avoid triggering the emergency timeout  |  ack |
 # PIN MAPPING
 
 
