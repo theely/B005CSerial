@@ -287,27 +287,34 @@ void parseSerialBuffer(uint8_t *buffer) {
 
 void parseSerialCommand(uint8_t *command) {
     static char buffer[50];
-    if (strncmp(command, "speed:", 6) == 0 && status==ARMED) {
-        
+    if (strncmp(command, "speed:", 6) == 0) {
         float left, right;
-        //TODO: this is not working
-        int numMatches = sscanf(command+6, "%f %f", &left, &right);
-        if (numMatches == 2) {
-            DRIVEMOTOR_SetSpeed(left, right);
-            sprintf(buffer, "Set speed left to:%.2f and right to:%.2f.\n",left,right);
-            logSerial((uint8_t *)buffer);
-        } else {
-            logSerial("Invalid speed command format: '"); logSerial(command); logSerial("'\n");
+        if(status!=ARMED){
+          logSerial("Warning this command requires ARMED state\n");
+        }else{
+           //TODO: this is not working
+          int numMatches = sscanf(command+6, "%f %f", &left, &right);
+          if (numMatches == 2) {
+              DRIVEMOTOR_SetSpeed(left, right);
+              sprintf(buffer, "Set speed left to:%.2f and right to:%.2f.\n",left,right);
+              logSerial((uint8_t *)buffer);
+          } else {
+              logSerial("Invalid speed command format: '"); logSerial(command); logSerial("'\n");
+          }
         }
-    } else if (strncmp(command, "cut", 3) == 0 && status==ARMED) {
+    } else if (strncmp(command, "cut", 3) == 0) {
         uint8_t charger_on_off;
-        int numMatches = sscanf(command+8, "%d", &charger_on_off);
-        if (numMatches == 1) {
-            BLADEMOTOR_Set(charger_on_off);
-            sprintf(buffer, "Set charger:%d\n",charger_on_off);
-            logSerial((uint8_t *)buffer);
-        } else {
-            logSerial("Invalid speed command format: '"); logSerial(command); logSerial("'\n");
+        if(status!=ARMED){
+          logSerial("Warning this command requires ARMED state\n");
+        }else{
+            int numMatches = sscanf(command+8, "%d", &charger_on_off);
+            if (numMatches == 1) {
+                BLADEMOTOR_Set(charger_on_off);
+                sprintf(buffer, "Set charger:%d\n",charger_on_off);
+                logSerial((uint8_t *)buffer);
+            } else {
+                logSerial("Invalid speed command format: '"); logSerial(command); logSerial("'\n");
+            }
         }
     } else if (strncmp(command, "arm", 3) == 0) {
         status=ARMED;
@@ -327,7 +334,7 @@ void parseSerialCommand(uint8_t *command) {
     } else if (strncmp(command, "ack", 3) == 0) {
        EMERGENCY_SerialAck();
     } else {
-        logSerial("Unknown command:"); logSerial(command); logSerial("\n");
+        logSerial("Unknown command:'"); logSerial(command); logSerial("'\n");
     }
 }
 
