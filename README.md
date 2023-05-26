@@ -38,24 +38,24 @@ Beside some log information mainly at boot time the B005CSerial sends a periodic
 
 | Command  | Parameter Type  | Description| Example   |
 |---|---|---|---|
-| arm  |    | Needs to be issued to activate the mower  |  arm |
+| arm  |    | Needs to be issued to enable any motor |  arm |
 | speed:left_speed right_speed  | float (-0.5 to 0.5)   | Controls the speed of the left and right wheel  |  speed:0.3 0.3 |
 | cut:on_off  |  boolean  | Controls the cutting blade  |  cut:1 |
 | charger:on_off  |  boolean  | Controls the charger  |  charger:1 |
 | halt  |    | Emergency Stop  |  halt |
-
+| ack  |    | Needs to be sent every 500ms to avoid triggering the emergency timeout  |  ack |
 # PIN MAPPING
 
 
 | PIN  | Peripheral  | Type | Config   |
 |---|---|---|---|
-| C9 | Play button  | GPIO  |  (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP |
-| A8 (TODO: not working - check C15 to C13)  |  Mechanical tilt  | GPIO  |  (HIGH when set) GPIO_MODE_INPUT GPIO_PULLDOWN |
-| B1 (TODO:test)  | Buzzer   | PWM  | TIM4_CH3  |
+| A8 (TODO: not working)  |  Mechanical tilt  | GPIO  |  (HIGH when set) GPIO_MODE_INPUT GPIO_PULLDOWN |
 | B8  (TODO: test)| Perimeter Sense Control  | GPIO  |  GPIO_MODE_OUTPUT_PP |
 | B9  (TODO: test)| Perimeter Sense Control  | GPIO  | GPIO_MODE_OUTPUT_PP  |
 | A10 (TODO: test) | Panle UART Port J16  |  UART1 RX (DMA) |   |
 | A9  (TODO: test)| Panle UART Port J16  | UART1 TX (DMA)  |   |
+| B1 | Buzzer   | PWM  | TIM4_CH3  |
+| C9 | Play button  | GPIO  |  (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP |
 |  E8 | Charge Control Pins  |  TIM1_CH1N | HighSide/LowSide MosFET   |
 |  E9 | Charge Control Pins  | TIM1_CH1   | HighSide/LowSide MosFET  |
 | B13  | Home button  | GPIO  | (LOW when pressed) GPIO_MODE_INPUT GPIO_PULLUP  |
