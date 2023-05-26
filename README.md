@@ -14,7 +14,11 @@
 
 # Serial Protocol
 To control the mower a text based USB Serial protocol is used.
-Simply connect to the mower with a USB data cable and open a USB serial connection with a baud rate of 9600. 
+Simply connect to the mower with a USB data cable and open a USB serial connection with the following setting:
+- baud rate: 115200
+- stop bits: 1
+- parity: none 
+- nb. of bits: 8
 
 ## Status Output
 Beside some log information mainly at boot time the B005CSerial sends a periodic status update. The status update is a JSON formatted message:
