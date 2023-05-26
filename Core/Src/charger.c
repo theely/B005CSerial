@@ -71,7 +71,6 @@ void CHARGER_Update(void)
     {
     case CHARGER_STATE_OFF:
         chargecontrol_pwm_val = 0;
-        HAL_GPIO_WritePin(High_Voltage_Enable_GPIO_Port, High_Voltage_Enable_Pin, 0);
         break;
 
     case CHARGER_STATE_CONNECTED:
