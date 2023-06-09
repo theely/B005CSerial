@@ -115,6 +115,7 @@ int main(void)
   MX_TIM1_Init();
   MX_WWDG_Init();
   MX_TIM3_Init();
+  MX_TIM5_Init();
   /* USER CODE BEGIN 2 */
   logSerial("System Boot Completed!\n");
   logSerial("Services Initializations started...\n");

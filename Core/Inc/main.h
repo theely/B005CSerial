@@ -105,6 +105,10 @@ void BUZZER_SET(uint8_t on_off);
 #define Play_Button_GPIO_Port GPIOC
 #define Mechanical_Tilt_Pin GPIO_PIN_8
 #define Mechanical_Tilt_GPIO_Port GPIOA
+#define SUART_TX_Pin GPIO_PIN_10
+#define SUART_TX_GPIO_Port GPIOC
+#define SUART_RX_Pin GPIO_PIN_11
+#define SUART_RX_GPIO_Port GPIOC
 #define Wheel_lift_blue_Pin GPIO_PIN_0
 #define Wheel_lift_blue_GPIO_Port GPIOD
 #define Wheel_lift_red_Pin GPIO_PIN_1
