@@ -98,6 +98,7 @@ target_sources(
     "Core/Src/usart.c"
     "Core/Src/wwdg.c"
     "Core/Startup/startup_stm32f401vctx.s"
+    "Middlewares/ST/STM32_UART_EMUL_Library/Src/stm32f4xx_hal_uart_emul.c"
     "Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c"
     "Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c"
     "Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c"

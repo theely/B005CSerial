@@ -43,7 +43,7 @@ uint8_t usb_serial_command[64];
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+UART_Emul_HandleTypeDef UartEmulHandle;
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -154,8 +154,23 @@ int main(void)
   logSerial("Buzzer initialized!\n");
 
   EMERGENCY_Init();
-  logSerial("Services Initializations completed!\n");
 
+  /* Initializing Software UART*/
+  UartEmulHandle.Init.Mode        = UART_EMUL_MODE_TX_RX;
+  UartEmulHandle.Init.BaudRate    = 9600;
+  UartEmulHandle.Init.StopBits    = UART_EMUL_STOPBITS_1;
+  UartEmulHandle.Init.Parity      = UART_EMUL_PARITY_NONE;
+  UartEmulHandle.Init.WordLength  = UART_EMUL_WORDLENGTH_8B;
+  if (HAL_UART_Emul_Init(&UartEmulHandle) != HAL_OK)
+  {
+    logSerial("Error: Software UART  NOT initilized!\n");
+    Error_Handler();
+  }else{
+    logSerial("Software UART initilized!\n");
+  }
+  
+
+  logSerial("Services Initializations completed!\n");
 
   /* USER CODE END 2 */
 
