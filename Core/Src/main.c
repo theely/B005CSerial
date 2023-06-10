@@ -172,6 +172,11 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
     
+    //Soft UART Impl:
+    // https://github.com/liyanboy74/soft-uart
+    //https://github.com/v0idv0id/STM32-Scaler
+    //9600 - 8bit
+    
     SoftUartReadLine(0);
     if (soft_serial_command[0] != '\0')
     {
