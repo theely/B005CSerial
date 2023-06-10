@@ -83,6 +83,7 @@ target_sources(
     "Core/Src/adc.c"
     "Core/Src/blademotor.c"
     "Core/Src/charger.c"
+    "Core/Src/softuart.c"
     "Core/Src/dma.c"
     "Core/Src/drivemotor.c"
     "Core/Src/emergency.c"

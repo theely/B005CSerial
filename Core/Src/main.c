@@ -34,11 +34,13 @@
 #include "blademotor.h" 
 #include "emergency.h" 
 #include "charger.h"
+#include "softuart.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 uint8_t usb_serial_command[64];
+uint8_t soft_serial_command[64];
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -120,6 +122,8 @@ int main(void)
   logSerial("System Boot Completed!\n");
   logSerial("Services Initializations started...\n");
   memset (usb_serial_command, '\0', 64);  // clear the buffer
+  memset (soft_serial_command, '\0', 64);  // clear the buffer
+  
   HAL_GPIO_WritePin(Led_D3_GPIO_Port, Led_D3_Pin,1);
   
   /* init Status update variables*/
@@ -168,13 +172,17 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
     
-
+    SoftUartReadLine(0);
+    if (soft_serial_command[0] != '\0')
+    {
+       parseSerialCommand(soft_serial_command);
+       memset (soft_serial_command, '\0', 64);  // clear buffer
+    }
     if (usb_serial_command[0] != '\0')
     {
        parseSerialCommand(usb_serial_command);
        memset (usb_serial_command, '\0', 64);  // clear buffer
     }
-
 
     ADC_Update();
     EMERGENCY_Update();
@@ -268,6 +276,7 @@ void SystemClock_Config(void)
 void logSerial(uint8_t *message)
 {
  CDC_Transmit_FS(message, strlen(message));
+ SoftUartPuts(0,message,strlen(message));
 }
 
 
@@ -386,6 +395,14 @@ void STATE_Send() {
   
   logSerial((uint8_t *)status_buffer);
 
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if(htim->Instance==TIM5)
+	{
+		SoftUartHandler();
+	}
 }
 
 /* USER CODE END 4 */
